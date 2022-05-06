@@ -1,6 +1,7 @@
 import { LoginResData } from "../utils/types";
 
-export const BASE_URL = "http://localhost:3000";
+const BASE_URL = "http://localhost:3000";
+
 export function register<T>(
   email: string,
   password: string
@@ -65,4 +66,24 @@ export function login<T>(
       }
     })
     .catch((err) => console.log(err));
+}
+export function getData<T>(
+  token: string
+): Promise<T | unknown> {
+  const uri = `${BASE_URL}/me`;
+  return fetch(uri, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    },
+  }).then((res) => {
+    try {
+      if (res.ok) {
+        return res.json();
+      }
+    } catch (e) {
+      return e;
+    }
+  });
 }

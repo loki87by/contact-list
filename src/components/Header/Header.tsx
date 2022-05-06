@@ -14,6 +14,10 @@ function Header(props: HeaderProps): React.ReactElement {
 
   return (
     <section className="Header">
+      {props.loggedIn ? <div className="Header__presentation">
+        <button className="Header__presentation-button">Список</button>
+        <button className="Header__presentation-button">Плитка</button>
+      </div> : ''}
       <h1 className="Header__title">Contact-list</h1>
       <Link
         to={props.crossLink}

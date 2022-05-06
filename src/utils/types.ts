@@ -37,11 +37,16 @@ export interface HeaderProps {
   setEnterLink: VoidFunction;
   setRegLink: VoidFunction;
   logOut: VoidFunction;
+  setPresentationList: Dispatch<SetStateAction<boolean>>;
 }
 
-export interface ProptectedRouteProps {
-  component: React.FC;
+export interface MainProps {
   loggedIn: boolean;
+  presentationList: boolean;
+}
+
+export interface ProptectedRouteProps extends MainProps {
+  component: React.FC;
   exact: boolean;
   path: string;
 }

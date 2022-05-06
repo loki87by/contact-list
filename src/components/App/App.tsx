@@ -7,6 +7,7 @@ import Footer from "../Footer/Footer";
 import Register from "../Auth/Register";
 import Login from "../Auth/Login";
 import * as Auth from "../../utils/Auth";
+import * as Api from "../../utils/Api";
 import { LoginResData } from "../../utils/types";
 import "./App.css";
 
@@ -14,6 +15,7 @@ function App(): React.ReactElement {
   const [loggedIn, setLoggedIn] = React.useState<boolean>(false);
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
+  const [presentationList, setPresentationList] = React.useState<boolean>(false);
   const [headerData, setHeaderData] = React.useState({
     crossLink: "/signin",
     linkText: "Вход",
@@ -52,6 +54,14 @@ function App(): React.ReactElement {
             crossLink: "/",
             linkText: "Выход",
           });
+          if ((data as LoginResData).token) {
+            Auth.getData((data as LoginResData).token) 
+            .then((res) => console.log(res))
+            .catch((err) => console.log(err));
+            Api.getContacts((data as LoginResData).token) 
+            .then((res) => console.log(res))
+            .catch((err) => console.log(err));
+          }
           history.push("/");
           return;
         }
@@ -89,6 +99,7 @@ function App(): React.ReactElement {
         setEnterLink={setEnterLink}
         setRegLink={setRegLink}
         logOut={logOut}
+        setPresentationList={setPresentationList}
       />
       <main className="content">
         <Switch>
@@ -97,6 +108,7 @@ function App(): React.ReactElement {
             path="/"
             loggedIn={loggedIn}
             component={Main}
+            presentationList={presentationList}
           />
           <Route path="/signup">
             <Register

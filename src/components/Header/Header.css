@@ -6,17 +6,34 @@
   background-color: rgba(0, 197, 148, .7);
 }
 
+.Header__presentation {
+  width: 18%;
+  height: max-content;
+  max-height: 6vh;
+  margin-left: 2%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.Header__presentation-button {
+  width: 45%;
+  border: none;
+  font-size: 1rem;
+  color:#fff;
+  background: transparent;
+}
+
 .Header__title {
   width: 20%;
   margin: auto;
-  margin-left: 40%;
+  margin-left: 20%;
   text-align: center;
   color: #fff;
   text-shadow: -1px 3px #000;
 }
 
 .Header__text {
-  margin-right: 1%;
+  margin-right: 2%;
   font-size: 1.25em;
   font-weight: 900;
   text-shadow: 2px 2px 2px #000;
