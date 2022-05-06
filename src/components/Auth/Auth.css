@@ -1,0 +1,63 @@
+.signform {
+  max-width: 40%;
+  max-height: -webkit-max-content;
+  max-height: -moz-max-content;
+  max-height: max-content;
+  padding-top: 20px;
+  margin: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.signform__text {
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  color: black;
+  margin: auto;
+}
+
+.signform__input {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  margin-top: 20px;
+  color: #cccccc;
+  padding: 0;
+  border: none;
+  border-bottom: 2px solid #cccccc;
+  background-color: #000;
+}
+
+.signform__submit {
+  margin-top: 20px;
+  background-color: #ffffff;
+  border-radius: 2px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  color: #000000;
+  padding: 14px;
+  cursor: pointer;
+}
+
+.signform__submit:hover {
+  opacity: 0.6;
+}
+
+.signform__link {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  color: black;
+  margin: 15px auto;
+}

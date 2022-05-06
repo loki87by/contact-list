@@ -1,0 +1,17 @@
+.Header {
+  width: 100vw;
+  height: 8vh;
+  display: flex;
+  align-items: center;
+}
+
+.Header__title {
+  width: 20%;
+  margin: auto;
+  margin-left: 40%;
+  text-align: center;
+}
+
+.Header__text {
+  margin-right: 1%;
+}
