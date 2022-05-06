@@ -1,22 +1,15 @@
-.Header {
+.Footer {
   width: 100vw;
   height: 8vh;
   display: flex;
+  justify-content: center;
   align-items: center;
   background-color: rgba(0, 197, 148, .7);
 }
 
-.Header__title {
-  width: 20%;
-  margin: auto;
-  margin-left: 40%;
-  text-align: center;
-  color: #fff;
-  text-shadow: -1px 3px #000;
-}
-
-.Header__text {
-  margin-right: 1%;
+.Footer__link,
+time {
+  margin-right: 5px;
   font-size: 1.25em;
   font-weight: 900;
   text-shadow: 2px 2px 2px #000;

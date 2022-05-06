@@ -16,4 +16,5 @@ main {
   height: -webkit-max-content;
   height: -moz-max-content;
   height: max-content;
+  min-height: 84vh;
 }

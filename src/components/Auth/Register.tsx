@@ -12,6 +12,7 @@ function Register(props: RegisterProps): React.ReactElement {
   return (
     <form className="signform">
       <p className="signform__text">Регистрация</p>
+      <fieldset className="signform__fieldset">
       <input
         type="text"
         className="signform__input"
@@ -20,16 +21,21 @@ function Register(props: RegisterProps): React.ReactElement {
         placeholder="Email"
         id="email"
         name="email"
-      />
+      ></input>
+      <label htmlFor="name" className="signform__label">Email</label>
+      </fieldset>
+      <fieldset className="signform__fieldset">
       <input
         type="password"
         className="signform__input"
         onChange={(e) => props.setPassword(e.target.value)}
         value={props.password}
         placeholder="Пароль"
-        id="password"
-        name="password"
-      />
+        id="pass"
+        name="pass"
+      ></input>
+      <label htmlFor="pass" className="signform__label">Пароль</label>
+      </fieldset>
       <button type="submit" className="signform__submit" onClick={handleSubmit}>
         Зарегестрироваться
       </button>

@@ -3,6 +3,7 @@ import { Route, Switch, Redirect, useHistory } from "react-router-dom";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
+import Footer from "../Footer/Footer";
 import Register from "../Auth/Register";
 import Login from "../Auth/Login";
 import * as Auth from "../../utils/Auth";
@@ -21,6 +22,7 @@ function App(): React.ReactElement {
   const history = useHistory();
 
   React.useEffect(() => {
+
     if (localStorage.getItem("jwt")) {
       setLoggedIn(true);
       setHeaderData({
@@ -41,6 +43,7 @@ function App(): React.ReactElement {
   function handleLogin() {
     Auth.login(email, password)
       .then((data) => {
+
         if (data) {
           setLoggedIn(true);
           setEmail("");
@@ -59,6 +62,7 @@ function App(): React.ReactElement {
   function onRegister() {
     Auth.register(email, password)
       .then((res) => {
+
         if (res) {
           history.push("/signin");
         }
@@ -88,7 +92,12 @@ function App(): React.ReactElement {
       />
       <main className="content">
         <Switch>
-          <ProtectedRoute exact path="/" loggedIn={loggedIn} component={Main} />
+          <ProtectedRoute
+            exact
+            path="/"
+            loggedIn={loggedIn}
+            component={Main}
+          />
           <Route path="/signup">
             <Register
               email={email}
@@ -115,6 +124,7 @@ function App(): React.ReactElement {
           </Route>
         </Switch>
       </main>
+      <Footer />
     </>
   );
 }
