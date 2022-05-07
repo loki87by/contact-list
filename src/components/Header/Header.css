@@ -18,7 +18,7 @@
 .Header__presentation-button {
   width: 45%;
   border: none;
-  font-size: 1rem;
+  font-size: 1em;
   color:#fff;
   background: transparent;
 }

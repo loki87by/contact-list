@@ -6,21 +6,14 @@ export function register<T>(
   email: string,
   password: string
 ): Promise<T | unknown> {
-  const uri = `${BASE_URL}/registry/?email=${email}&password=${password}`;
+  const uri = `${BASE_URL}/registration/?email=${email}&password=${password}`;
   return fetch(uri, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-  }).then((res) => {
-    try {
-      if (res.ok) {
-        return res.json();
-      }
-    } catch (e) {
-      return e;
-    }
-  });
+  }).then((res) => res.json())
+  .catch((err) => err.json())
 }
 
 export function login<T>(
@@ -35,24 +28,10 @@ export function login<T>(
     },
   })
     .then((res) => {
-      try {
-        if (res.status === 200) {
           return res.json();
-        }
-
-        if (res.status === 400) {
-          return Promise.reject(new Error(`Ошибка: ${res.status}`));
-        }
-
-        if (res.status === 401) {
-          return Promise.reject(new Error(`Ошибка: ${res.status}`));
-        }
-      } catch (err) {
-        return err;
-      }
     })
     .catch((err) => {
-      return Promise.reject(err);
+      return err.json();
     })
     .then((data) => {
       const { token } = data as LoginResData;
@@ -65,7 +44,7 @@ export function login<T>(
         return Promise.reject(err);
       }
     })
-    .catch((err) => console.log(err));
+    .catch((err) => err.json());
 }
 export function getData<T>(
   token: string

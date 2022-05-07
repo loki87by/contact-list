@@ -6,12 +6,12 @@ export interface Todo {
   completed: boolean;
 }
 
-export interface UserData {
+interface UserLoginData {
   email: string;
   password: string;
 }
 
-interface AuthData extends UserData {
+interface AuthData extends UserLoginData {
   setEmail: Dispatch<SetStateAction<string>>;
   setPassword: Dispatch<SetStateAction<string>>;
   changeLink: VoidFunction;
@@ -30,6 +30,14 @@ export interface LoginResData {
   [key: string]: string;
 }
 
+export interface UserResData {
+  [key: string]: string | [string];
+}
+
+export interface UserData {
+  [key: string]: string | [string] | UserResData;
+}
+
 export interface HeaderProps {
   loggedIn: boolean;
   crossLink: string;
@@ -40,13 +48,17 @@ export interface HeaderProps {
   setPresentationList: Dispatch<SetStateAction<boolean>>;
 }
 
-export interface MainProps {
-  loggedIn: boolean;
+/* export interface ProfileProps {
+  currentUser: UserData;
+} */
+
+export interface MainProps /* extends ProfileProps */ {
   presentationList: boolean;
 }
 
 export interface ProptectedRouteProps extends MainProps {
-  component: React.FC;
+  component: React.FC<MainProps>;
+  loggedIn: boolean;
   exact: boolean;
   path: string;
 }
