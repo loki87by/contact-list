@@ -44,8 +44,24 @@ const userSlice = createSlice({
         state[action.payload.current] = action.payload.description;
       }
     },
+    removeValue(
+      state,
+      action: PayloadAction<{
+        current: string;
+        isArray?: boolean;
+        index?: number;
+      }>
+    ) {
+      if (action.payload.isArray) {
+        (state[action.payload.current] as [string]).splice(
+          action.payload.index || 0,
+          1
+        );
+      }
+    },
   },
 });
 
-export const { addValue, editValue } = userSlice.actions;
+export const { addValue, editValue, removeValue } =
+  userSlice.actions;
 export default userSlice.reducer;

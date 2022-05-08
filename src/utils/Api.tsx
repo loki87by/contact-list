@@ -1,3 +1,4 @@
+import { UserResData } from "./types";
 const BASE_URL = "http://localhost:3000";
 
 export function getUsers<T>(): Promise<T | unknown> {
@@ -24,13 +25,8 @@ export function getUsers<T>(): Promise<T | unknown> {
 
 export function updatePersonalData<T>(
   token: string,
-  name?: string,
-  email?: string,
-  avatar?: string,
-  phones?: [string],
-  password?: string
+  user: UserResData
 ): Promise<T | unknown> {
-  const user = { name, email, avatar, phones, password };
   let uri = `${BASE_URL}/users/`;
   Object.keys(user).forEach((item, index) => {
     if (index === 0) {
@@ -38,17 +34,10 @@ export function updatePersonalData<T>(
     } else {
       uri += "&";
     }
-    if (item === "phones") {
-      let stringifyArray = "[" as string;
-      (Object.values(user)[index] as [string]).forEach(
-        (phone: string, num: number) => {
-          stringifyArray += `${encodeURI(phone)},`;
-          if (num === (Object.values(user)[index] as [string]).length - 1) {
-            stringifyArray += "]";
-          }
-        }
-      );
-      uri += `phones=${stringifyArray}`;
+
+    if ((item === "phones") || (item === "password")) {
+      const stringifyArray = (Object.values(user)[index] as [string]).join('~')
+      uri += `${item}=${encodeURI(stringifyArray)}`;
     } else {
       uri += `${item}=${encodeURI(Object.values(user)[index] as string)}`;
     }

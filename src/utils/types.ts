@@ -48,11 +48,11 @@ export interface HeaderProps {
   setPresentationList: Dispatch<SetStateAction<boolean>>;
 }
 
-/* export interface ProfileProps {
-  currentUser: UserData;
-} */
+export interface ProfileProps {
+  logOut: VoidFunction;
+}
 
-export interface MainProps /* extends ProfileProps */ {
+export interface MainProps extends ProfileProps {
   presentationList: boolean;
 }
 

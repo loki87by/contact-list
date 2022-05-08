@@ -158,6 +158,7 @@ function App(): React.ReactElement {
             path="/"
             loggedIn={loggedIn}
             presentationList={presentationList}
+            logOut={logOut}
             component={Main}
           />
           <Route path="/signup">
