@@ -52,8 +52,12 @@ export interface ProfileProps {
   logOut: VoidFunction;
 }
 
-export interface MainProps extends ProfileProps {
+export interface ContactsProps {
   presentationList: boolean;
+}
+
+export interface MainProps extends ProfileProps, ContactsProps {
+  // presentationList: boolean;
 }
 
 export interface ProptectedRouteProps extends MainProps {
@@ -61,4 +65,8 @@ export interface ProptectedRouteProps extends MainProps {
   loggedIn: boolean;
   exact: boolean;
   path: string;
+}
+
+export interface CardProps extends ContactsProps {
+  data: UserData;
 }

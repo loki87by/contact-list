@@ -1,8 +1,12 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
 import { Route, Switch, Redirect, useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store";
+/* import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store"; */
 import { addValue } from "../../redux/userReducer";
+import { addContact } from "../../redux/contactsReducer";
+// import { addFriend } from "../../redux/friendsReducer";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
@@ -11,15 +15,17 @@ import Register from "../Auth/Register";
 import Login from "../Auth/Login";
 import * as Auth from "../../utils/Auth";
 import * as Api from "../../utils/Api";
-import { LoginResData, UserData } from "../../utils/types";
+import { LoginResData, UserData, UserResData } from "../../utils/types";
 import "./App.css";
 
 function App(): React.ReactElement {
   const dispatch = useDispatch<AppDispatch>();
   const history = useHistory();
 
-  const [currentUser, setCurrentUser] = React.useState({});
-
+  const store = useSelector((state: RootState) => state);
+  const contactState = store.contacts
+  const [currentUserFriends, setCurrentUserFriends] = React.useState([] as unknown as [UserData]);
+  
   const [loggedIn, setLoggedIn] = React.useState<boolean>(false);
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
@@ -30,11 +36,10 @@ function App(): React.ReactElement {
     linkText: "Вход",
   });
 
-  console.log(currentUser);
+  console.log(currentUserFriends, contactState);
 
   const setUser = React.useCallback(
     (data: UserData) => {
-      setCurrentUser(data);
       const keys = Object.keys(data);
       const values = Object.values(data);
       keys.forEach((key, index) => {
@@ -56,11 +61,34 @@ function App(): React.ReactElement {
               dispatch(addValue(dataObject));
             });
           }
+        } else {
+          setCurrentUserFriends(values[index] as unknown as [UserData]);
         }
       });
     },
     [dispatch]
   );
+
+  const setContacts = React.useCallback(
+    (data: [UserData]) => {
+      data.forEach((contact) => {
+        const {name, email, avatar, phones, quote, id} = contact
+        const index = id.toString()
+            dispatch(addContact(name as UserResData, email as UserResData, avatar as UserResData, phones as UserResData, quote as UserResData, index as string));
+      });
+    },
+    [dispatch]
+  );
+
+/*   const setFriends = React.useCallback(
+    (data: [UserData]) => {
+      data.forEach((friend) => {
+        const {name, email, avatar, phones, quote} = friend
+          dispatch(addFriend(name as UserResData, email as UserResData, avatar as UserResData, phones as UserResData, quote as UserResData));
+      });
+    },
+    [dispatch]
+  ); */
 
   React.useEffect(() => {
     if (localStorage.getItem("jwt")) {
@@ -73,15 +101,21 @@ function App(): React.ReactElement {
 
       if (token) {
         Auth.getData(token)
-          .then((res) => setUser(res as UserData))
+          .then((res) => {
+            setUser(res as UserData)
+            console.log(res)
+            // setFriends
+          })
           .catch((err) => console.log(err));
         Api.getContacts(token)
-          .then((res) => console.log(res))
+          .then((res) => {
+            setContacts(res as [UserData])
+          })
           .catch((err) => console.log(err));
       }
       history.push("/");
     }
-  }, [history, setUser]);
+  }, [history, setContacts, setUser]);
 
   function setEnterLink() {
     setHeaderData({ crossLink: "/signup", linkText: "Регистрация" });
@@ -106,7 +140,7 @@ function App(): React.ReactElement {
             .then((res) => setUser(res as UserData))
             .catch((err) => console.log(err));
           Api.getContacts((data as LoginResData).token)
-            .then((res) => console.log(res))
+            .then((res) => setContacts(res as [UserData]))
             .catch((err) => console.log(err));
           history.push("/");
           return;

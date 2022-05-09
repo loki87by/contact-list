@@ -1,0 +1,18 @@
+.Contacts {
+  width: 80%;
+  height: 80%;
+}
+
+.Contacts__list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.Contacts__cells {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+}

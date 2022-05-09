@@ -46,12 +46,12 @@ form {
 
 .Profile__settings {
   position: absolute;
-  top: calc(100% - 2em);
+  top: calc(100% - 2.5em);
   transition: all 0.5s ease-in-out;
 }
 
 .Profile__settings_open {
-  top: calc(100% - 13.5em);
+  top: calc(100% - 13.75em);
   box-sizing: border-box;
   background: rgba(0, 197, 148, 0.3);
   border: 4px dashed rgba(0, 197, 148, 0.7);
@@ -110,7 +110,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .Profile__name {
-  margin: 0.7em 0.2em;
+  margin: 0.4em 0.2em;
   font-size: 1.3em;
 }
 

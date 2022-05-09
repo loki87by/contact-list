@@ -14,8 +14,9 @@ import trash from "../../assets/trash.svg";
 import "./Profile.css";
 
 function Profile(props: ProfileProps): React.ReactElement {
-  const userState = useSelector((state: RootState) => state);
+  const store = useSelector((state: RootState) => state);
   const dispatch = useDispatch<AppDispatch>();
+  const userState = store.user
   const [editedText, setEditedText] = React.useState<string>("");
   const [isGeneralSettings, setGeneralSettings] = React.useState(false);
   const [oldPass, setOldPass] = React.useState<string>("");
@@ -287,7 +288,6 @@ function Profile(props: ProfileProps): React.ReactElement {
           (userState.phones && userState.phones.length < 5) ? (
           <button
             onClick={() => showInput("phones")}
-            className="Profile__addButton"
           >
             Добавить номер
           </button>

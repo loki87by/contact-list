@@ -1,0 +1,83 @@
+.Card {
+  position: relative;
+  width: 30%;
+  display: flex;
+  align-items: center;
+}
+
+.Card_list {
+  width: 80%;
+}
+
+.Card__avatar {
+  width: 50%;
+}
+
+.Card__avatar_list {
+  width: 10%;
+}
+
+.Card__avatar-image {
+  width: 100%
+}
+
+.Card__editButton {
+  width: 1.5em;
+  height: 1.5em;
+  padding: 0;
+  font-size: 1em;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+.Card__editButton_avatar{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  -webkit-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+}
+
+.Card__editButton_avatar:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.Card__description {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+}
+
+.Card__description_list {
+  width: 90%;
+  position: relative;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.Card__name-container {
+  width: max-content;
+}
+
+.Card__name-container_list {
+max-width: 50%;
+}
+
+.Card__phones-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.Card__phones-container_list {
+  flex-direction: row;
+}
+/* 
+.Card__addButton {
+
+} */
