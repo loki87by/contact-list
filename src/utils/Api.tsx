@@ -35,8 +35,8 @@ export function updatePersonalData<T>(
       uri += "&";
     }
 
-    if ((item === "phones") || (item === "password")) {
-      const stringifyArray = (Object.values(user)[index] as [string]).join('~')
+    if (item === "phones" || item === "password") {
+      const stringifyArray = (Object.values(user)[index] as [string]).join("~");
       uri += `${item}=${encodeURI(stringifyArray)}`;
     } else {
       uri += `${item}=${encodeURI(Object.values(user)[index] as string)}`;
@@ -105,35 +105,31 @@ export function getContacts<T>(token: string): Promise<T | unknown> {
     });
 }
 
-export function addContact<T>(
+export function setContact<T>(
   token: string,
-  name?: string,
-  email?: string,
-  avatar?: string,
-  phones?: [string],
-  quote?: string
+  contact: UserResData
 ): Promise<T | unknown> {
-  const contact = { name, email, avatar, phones, quote };
   let uri = `${BASE_URL}/contacts/`;
   Object.keys(contact).forEach((item, index) => {
-    if (index === 0) {
-      uri += "?";
-    } else {
-      uri += "&";
-    }
-    if (item === "phones") {
-      let stringifyArray = "[" as string;
-      (Object.values(contact)[index] as [string]).forEach(
-        (phone: string, num: number) => {
-          stringifyArray += `${encodeURI(phone)},`;
-          if (num === (Object.values(contact)[index] as [string]).length - 1) {
-            stringifyArray += "]";
-          }
+    if (Object.values(contact)[index] !== undefined) {
+      if (index === 0) {
+        uri += "?";
+      } else {
+        uri += "&";
+      }
+
+      if (item === "phones") {
+        let stringifyArray = (Object.values(contact)[index] as [string]).join(
+          "~"
+        );
+
+        if (stringifyArray.length === 0) {
+          stringifyArray = "~";
         }
-      );
-      uri += `phones=${stringifyArray}`;
-    } else {
-      uri += `${item}=${encodeURI(Object.values(contact)[index] as string)}`;
+        uri += `${item}=${encodeURI(stringifyArray)}`;
+      } else {
+        uri += `${item}=${encodeURI(Object.values(contact)[index] as string)}`;
+      }
     }
   });
   return fetch(uri, {
@@ -159,7 +155,7 @@ export function addContact<T>(
 
 export function updateContact<T>(
   token: string,
-  contact: UserResData,
+  contact: UserResData
 ): Promise<T | unknown> {
   let uri = `${BASE_URL}/contacts/`;
   Object.keys(contact).forEach((item, index) => {
@@ -169,7 +165,9 @@ export function updateContact<T>(
       uri += "&";
     }
     if (item === "phones") {
-      const stringifyArray = (Object.values(contact)[index] as [string]).join('~')
+      const stringifyArray = (Object.values(contact)[index] as [string]).join(
+        "~"
+      );
       uri += `${item}=${encodeURI(stringifyArray)}`;
     } else {
       uri += `${item}=${encodeURI(Object.values(contact)[index] as string)}`;
@@ -183,7 +181,7 @@ export function updateContact<T>(
     },
   })
     .then((res) => {
-          return res.json();
+      return res.json();
     })
     .catch((err) => {
       return err.json();

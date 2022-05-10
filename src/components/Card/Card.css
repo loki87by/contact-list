@@ -1,7 +1,11 @@
 .Card {
   position: relative;
   width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
   align-items: flex-start;
 }
 
@@ -11,6 +15,8 @@
 
 .Card__avatar {
   position: relative;
+  width: -webkit-max-content;
+  width: -moz-max-content;
   width: max-content;
   min-width: 50%;
 }
@@ -23,8 +29,9 @@
 
 .Card__avatar-image {
   width: 100%;
-    height: 100%;
-    object-fit: cover;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
 }
 
 .Card__editButton {
@@ -47,6 +54,7 @@
   right: auto;
   width: 100%;
   height: 100%;
+  -o-object-fit: contain;
   object-fit: contain;
   opacity: 0;
 }
@@ -58,16 +66,30 @@
 
 .Card__description {
   width: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
   justify-content: flex-start;
+  -ms-flex-wrap: nowrap;
   flex-wrap: nowrap;
 }
 
 .Card__description_list {
   width: 90%;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
   flex-direction: row;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 
@@ -75,14 +97,23 @@
 .Card__phone-container {
   position: relative;
   width: 100%;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   overflow: hidden;
 }
 
 .Card__phone-container_list {
+  width: -webkit-max-content;
+  width: -moz-max-content;
   width: max-content;
-    padding-right: 2em;
+  padding-right: 2em;
 }
 
 .Card__data-container_list {
@@ -106,6 +137,7 @@
 .Card__data-container:hover .Card__editButton,
 .Card__phone-container:hover .Card__editButton {
   right: 0;
+  -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
 }
 
@@ -114,8 +146,13 @@
   z-index: 2;
   width: 100%;
   height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -ms-flex-pack: distribute;
   justify-content: space-around;
 }
 
@@ -124,14 +161,26 @@
   width: 200%;
   height: 30%;
   background: rgba(0, 0, 0, 0.2);
+  -webkit-backdrop-filter: sepia(1);
   backdrop-filter: sepia(1);
 }
 
 .Card__input-container_list {
   top: 25%;
   width: 500%;
-    height: 50%;
-    justify-content: space-evenly;
+  height: 50%;
+  -webkit-box-pack: space-evenly;
+  -ms-flex-pack: space-evenly;
+  justify-content: space-evenly;
+}
+
+.Card__input-container_phone {
+  position: relative;
+}
+
+.Card__input-container_list-phone {
+  position: absolute;
+  width: 70%;
 }
 
 .Card__input {
@@ -139,6 +188,7 @@
   height: 2em;
   padding: 0;
   border: 3px solid #000;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 1em;
   line-height: 1;
@@ -156,17 +206,28 @@
   width: 100%;
   min-width: 100%;
   overflow: hidden;
+  -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .Card__phones-container {
   width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
 }
 
 .Card__phones-container_list {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
   flex-direction: row;
+  -webkit-box-align: baseline;
+  -ms-flex-align: baseline;
   align-items: baseline;
 }

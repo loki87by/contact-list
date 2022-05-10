@@ -56,9 +56,7 @@ export interface ContactsProps {
   presentationList: boolean;
 }
 
-export interface MainProps extends ProfileProps, ContactsProps {
-  // presentationList: boolean;
-}
+export interface MainProps extends ProfileProps, ContactsProps {}
 
 export interface ProptectedRouteProps extends MainProps {
   component: React.FC<MainProps>;

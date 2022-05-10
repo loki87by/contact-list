@@ -1,8 +1,5 @@
-// import * as actions from './actionTypes';
-
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-/* import { Todo } from "../utils/types"; */
-import { /* UserData, */ UserResData } from "../utils/types";
+import { UserResData } from "../utils/types";
  
 const initialState = [] as unknown as [UserResData];
  
@@ -22,7 +19,7 @@ const contactsSlice = createSlice({
           avatar,
           phones,
           quote,
-          id: `contact-${index}`
+          id: `contact-${index?.replace(/\D/gi, '')}`
         } as UserResData,
       }),
     },

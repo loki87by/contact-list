@@ -21,9 +21,11 @@ function App(): React.ReactElement {
   const history = useHistory();
 
   const store = useSelector((state: RootState) => state);
-  const contactState = store.contacts
-  const [currentUserFriends, setCurrentUserFriends] = React.useState([] as unknown as [UserData]);
-  
+  const contactState = store.contacts;
+  const [currentUserFriends, setCurrentUserFriends] = React.useState(
+    [] as unknown as [UserData]
+  );
+
   const [loggedIn, setLoggedIn] = React.useState<boolean>(false);
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
@@ -70,15 +72,24 @@ function App(): React.ReactElement {
   const setContacts = React.useCallback(
     (data: [UserResData]) => {
       data.forEach((contact) => {
-        const {name, email, avatar, phones, quote, id} = contact
-        const index = id.toString()
-          dispatch(addContact(name as string, email as string, avatar as string, phones as [string], quote as string, index as string));
+        const { name, email, avatar, phones, quote, id } = contact;
+        const index = id.toString();
+        dispatch(
+          addContact(
+            name as string,
+            email as string,
+            avatar as string,
+            phones as [string],
+            quote as string,
+            index as string
+          )
+        );
       });
     },
     [dispatch]
   );
 
-/*   const setFriends = React.useCallback(
+  /*   const setFriends = React.useCallback(
     (data: [UserData]) => {
       data.forEach((friend) => {
         const {name, email, avatar, phones, quote} = friend
@@ -100,14 +111,14 @@ function App(): React.ReactElement {
       if (token) {
         Auth.getData(token)
           .then((res) => {
-            setUser(res as UserData)
-            console.log(res)
+            setUser(res as UserData);
+            console.log(res);
             // setFriends
           })
           .catch((err) => console.log(err));
         Api.getContacts(token)
           .then((res) => {
-            setContacts(res as [UserResData])
+            setContacts(res as [UserResData]);
           })
           .catch((err) => console.log(err));
       }
