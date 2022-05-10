@@ -159,14 +159,8 @@ export function addContact<T>(
 
 export function updateContact<T>(
   token: string,
-  name?: string,
-  email?: string,
-  avatar?: string,
-  phones?: [string],
-  quote?: string,
-  id?: string
+  contact: UserResData,
 ): Promise<T | unknown> {
-  const contact = { name, email, avatar, phones, quote, id };
   let uri = `${BASE_URL}/contacts/`;
   Object.keys(contact).forEach((item, index) => {
     if (index === 0) {
@@ -175,16 +169,8 @@ export function updateContact<T>(
       uri += "&";
     }
     if (item === "phones") {
-      let stringifyArray = "[" as string;
-      (Object.values(contact)[index] as [string]).forEach(
-        (phone: string, num: number) => {
-          stringifyArray += `${encodeURI(phone)},`;
-          if (num === (Object.values(contact)[index] as [string]).length - 1) {
-            stringifyArray += "]";
-          }
-        }
-      );
-      uri += `phones=${stringifyArray}`;
+      const stringifyArray = (Object.values(contact)[index] as [string]).join('~')
+      uri += `${item}=${encodeURI(stringifyArray)}`;
     } else {
       uri += `${item}=${encodeURI(Object.values(contact)[index] as string)}`;
     }
@@ -197,16 +183,10 @@ export function updateContact<T>(
     },
   })
     .then((res) => {
-      try {
-        if (res.ok) {
           return res.json();
-        }
-      } catch (e) {
-        return e;
-      }
     })
     .catch((err) => {
-      return Promise.reject(err);
+      return err.json();
     });
 }
 

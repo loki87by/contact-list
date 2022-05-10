@@ -1,21 +1,21 @@
 // import * as actions from './actionTypes';
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-/* import { Todo } from "../utils/types";
-import { v4 as uuidv4 } from "uuid"; */
-import { UserData, UserResData } from "../utils/types";
+/* import { Todo } from "../utils/types"; */
+import { /* UserData, */ UserResData } from "../utils/types";
  
-const initialState = [] as unknown as [UserData];
+const initialState = [] as unknown as [UserResData];
  
 const contactsSlice = createSlice({
   name: "contacts",
   initialState,
   reducers: {
     addContact: {
-      reducer: (state, action: PayloadAction<UserData>) => {
+      reducer: (state, action: PayloadAction<UserResData>) => {
         state.push(action.payload);
       },
-      prepare: (name?: UserResData, email?: UserResData, avatar?: UserResData, phones?: UserResData, quote?: UserResData, index?: string) => ({
+      prepare: (name?: string, email?: string, avatar?: string, phones?: [string], quote?: string, index?: string) => (
+        {
         payload: {
           name,
           email,
@@ -23,7 +23,7 @@ const contactsSlice = createSlice({
           phones,
           quote,
           id: `contact-${index}`
-        } as UserData,
+        } as UserResData,
       }),
     },
     removeContact(state, action: PayloadAction<string>) {
@@ -32,9 +32,9 @@ const contactsSlice = createSlice({
     },
     updateContacts(
       state,
-      action: PayloadAction<{ id: string; value: string; description: string }>
+      action: PayloadAction<{ id: string; value: string; description: string|[string] }>
     ) {
-      const index = state.findIndex((friend) => friend.id === action.payload.id);
+      const index = state.findIndex((contact) => contact.id === action.payload.id);
       state[index][action.payload.value] = action.payload.description;
     },
   },

@@ -2,8 +2,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { Route, Switch, Redirect, useHistory } from "react-router-dom";
-/* import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store"; */
 import { addValue } from "../../redux/userReducer";
 import { addContact } from "../../redux/contactsReducer";
 // import { addFriend } from "../../redux/friendsReducer";
@@ -70,11 +68,11 @@ function App(): React.ReactElement {
   );
 
   const setContacts = React.useCallback(
-    (data: [UserData]) => {
+    (data: [UserResData]) => {
       data.forEach((contact) => {
         const {name, email, avatar, phones, quote, id} = contact
         const index = id.toString()
-            dispatch(addContact(name as UserResData, email as UserResData, avatar as UserResData, phones as UserResData, quote as UserResData, index as string));
+          dispatch(addContact(name as string, email as string, avatar as string, phones as [string], quote as string, index as string));
       });
     },
     [dispatch]
@@ -109,7 +107,7 @@ function App(): React.ReactElement {
           .catch((err) => console.log(err));
         Api.getContacts(token)
           .then((res) => {
-            setContacts(res as [UserData])
+            setContacts(res as [UserResData])
           })
           .catch((err) => console.log(err));
       }
@@ -140,7 +138,7 @@ function App(): React.ReactElement {
             .then((res) => setUser(res as UserData))
             .catch((err) => console.log(err));
           Api.getContacts((data as LoginResData).token)
-            .then((res) => setContacts(res as [UserData]))
+            .then((res) => setContacts(res as [UserResData]))
             .catch((err) => console.log(err));
           history.push("/");
           return;

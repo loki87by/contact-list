@@ -27,9 +27,9 @@ const friendsSlice = createSlice({
     },
     updateFriend(
       state,
-      action: PayloadAction<{ id: string; value: string; description: string }>
+      action: PayloadAction<{ email: string; value: string; description: string }>
     ) {
-      const index = state.findIndex((friend) => friend.id === action.payload.id);
+      const index = state.findIndex((friend) => friend.email === action.payload.email);
       state[index][action.payload.value] = action.payload.description;
     },
   },

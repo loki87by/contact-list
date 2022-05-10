@@ -1,43 +1,54 @@
 .Card {
   position: relative;
-  width: 30%;
+  width: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .Card_list {
-  width: 80%;
+  margin-bottom: 1em;
 }
 
 .Card__avatar {
-  width: 50%;
+  position: relative;
+  width: max-content;
+  min-width: 50%;
 }
 
 .Card__avatar_list {
   width: 10%;
+  min-width: 10%;
+  height: 100%;
 }
 
 .Card__avatar-image {
-  width: 100%
+  width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .Card__editButton {
+  position: absolute;
+  right: 100%;
   width: 1.5em;
   height: 1.5em;
   padding: 0;
   font-size: 1em;
   -o-object-fit: cover;
   object-fit: cover;
-}
-
-.Card__editButton_avatar{
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
+  cursor: pointer;
   -webkit-transition: all 0.3s linear;
   -o-transition: all 0.3s linear;
   transition: all 0.3s linear;
+}
+
+.Card__editButton_avatar {
+  left: 0;
+  right: auto;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
 }
 
 .Card__editButton_avatar:hover {
@@ -49,35 +60,113 @@
   width: 50%;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
   flex-wrap: nowrap;
 }
 
 .Card__description_list {
   width: 90%;
-  position: relative;
   flex-direction: row;
   flex-wrap: wrap;
 }
 
-.Card__name-container {
-  width: max-content;
+.Card__data-container,
+.Card__phone-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 }
 
-.Card__name-container_list {
-max-width: 50%;
+.Card__phone-container_list {
+  width: max-content;
+    padding-right: 2em;
+}
+
+.Card__data-container_list {
+  max-width: 50%;
+}
+
+.Card__data-container_quote {
+  position: absolute;
+  bottom: -1.35em;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.Card__data-container_list-quote {
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.Card__data-container:hover .Card__editButton,
+.Card__phone-container:hover .Card__editButton {
+  right: 0;
+  backdrop-filter: blur(5px);
+}
+
+.Card__input-container {
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.Card__input-container_avatar {
+  top: 35%;
+  width: 200%;
+  height: 30%;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: sepia(1);
+}
+
+.Card__input-container_list {
+  top: 25%;
+  width: 500%;
+    height: 50%;
+    justify-content: space-evenly;
+}
+
+.Card__input {
+  width: 75%;
+  height: 2em;
+  padding: 0;
+  border: 3px solid #000;
+  box-sizing: border-box;
+  font-size: 1em;
+  line-height: 1;
+}
+
+.Card__input-submit {
+  width: 2em;
+  height: 2em;
+  padding: 0;
+  border: 3px solid #000;
+  font-size: 1em;
+}
+
+.Card__data-text {
+  width: 100%;
+  min-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .Card__phones-container {
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
 
 .Card__phones-container_list {
   flex-direction: row;
+  align-items: baseline;
 }
-/* 
-.Card__addButton {
-
-} */

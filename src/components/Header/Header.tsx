@@ -12,11 +12,19 @@ function Header(props: HeaderProps): React.ReactElement {
     }
   }
 
+  function setCellsViewType() {
+    props.setPresentationList(false)
+  }
+
+  function setListViewType() {
+    props.setPresentationList(true)
+  }
+
   return (
     <section className="Header">
       {props.loggedIn ? <div className="Header__presentation">
-        <button className="Header__presentation-button">Список</button>
-        <button className="Header__presentation-button">Плитка</button>
+        <button onClick={setListViewType} className="Header__presentation-button">Список</button>
+        <button onClick={setCellsViewType} className="Header__presentation-button">Плитка</button>
       </div> : ''}
       <h1 className="Header__title">Contact-list</h1>
       <Link
