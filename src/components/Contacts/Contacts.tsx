@@ -2,8 +2,8 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { AppDispatch, RootState } from "../../redux/store";
-import { addContact } from "../../redux/contactsReducer";
-import { getContacts, setContact } from "../../utils/Api";
+import { addContact, removeContact } from "../../redux/contactsReducer";
+import { getContacts, setContact, deleteContact } from "../../utils/Api";
 import { LoginResData, UserResData, ContactsProps } from "../../utils/types";
 import {
   FULL_USER_DATA,
@@ -19,6 +19,13 @@ function Contacts(props: ContactsProps): React.ReactElement {
   const friendssState = store.friends;
   const dispatch = useDispatch<AppDispatch>();
   const [isPopupOpened, setPopupOpened] = React.useState(false);
+  const [contextMenuOpened, setContextMenuOpened] = React.useState(false);
+  const [contextMenuFriend, setContextMenuFriend] = React.useState(false);
+  const [contextMenuData, setContextMenuData] = React.useState<LoginResData>({
+    top: '',
+    left: '',
+    element: ''
+  })
   const [newContactData, setNewContactData] = React.useState<LoginResData>({
     name: "",
     email: "",
@@ -104,7 +111,23 @@ function Contacts(props: ContactsProps): React.ReactElement {
           });
           setContact(token, contact);
         }
+        if ((res as [UserResData]).length > contactsState.length) {
+          let currentArray = (res as [UserResData]).slice()
+          contactsState.forEach((contact) => {
+            const step = currentArray.filter((item) => item.id !== (contact.id as string).replace(/\D/gi, ''))
+            currentArray = step
+          })
+          deleteContact(token, (currentArray[0].id as string))
+        }
       });
+    }
+  }
+
+  function removeFromList() {
+    let id;
+    if(!contextMenuFriend) {
+      id = contextMenuData.element.replace(/\D/gi, '')
+      dispatch(removeContact(id))
     }
   }
 
@@ -132,7 +155,7 @@ function Contacts(props: ContactsProps): React.ReactElement {
                   : "Contacts__cells-container"
               }
             >
-              <Card data={contact} presentationList={props.presentationList} />
+              <Card data={contact} presentationList={props.presentationList} setContextMenuData={setContextMenuData} setContextMenuFriend={setContextMenuFriend} setContextMenuOpened={setContextMenuOpened}/>
             </div>
           </li>
         ))}
@@ -145,7 +168,7 @@ function Contacts(props: ContactsProps): React.ReactElement {
                   : "Contacts__cells-container"
               }
             >
-              <Card data={friend} presentationList={props.presentationList} />
+              <Card data={friend} presentationList={props.presentationList} setContextMenuData={setContextMenuData} setContextMenuFriend={setContextMenuFriend} setContextMenuOpened={setContextMenuOpened} />
             </div>
           </li>
         ))}
@@ -196,6 +219,9 @@ function Contacts(props: ContactsProps): React.ReactElement {
           </form>
         </section>
       </ul>
+      <div style={{left: contextMenuData.left, top: contextMenuData.top}} onClick={removeFromList} className={`Contacts__contextMenu ${contextMenuOpened && "Contacts__contextMenu_opened"}`}>
+        <h4>{contextMenuFriend ? 'Удалить из друзей' : 'Удалить контакт'}</h4>
+      </div>
     </section>
   );
 }

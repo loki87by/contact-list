@@ -24,7 +24,7 @@ const contactsSlice = createSlice({
       }),
     },
     removeContact(state, action: PayloadAction<string>) {
-      const index = state.findIndex((friend) => friend.id === action.payload);
+      const index = state.findIndex((contact) => contact.id === action.payload);
       state.splice(index, 1);
     },
     updateContacts(

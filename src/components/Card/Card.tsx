@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { updateContacts } from "../../redux/contactsReducer";
-import { CardProps, UserResData } from "../../utils/types";
+import { CardProps, UserResData, LoginResData } from "../../utils/types";
 import { getContacts, updateContact } from "../../utils/Api";
 import pencil from "../../assets/pencil.svg";
 import noAva from "../../assets/no_ava.gif";
@@ -111,8 +111,26 @@ function Card(props: CardProps): React.ReactElement {
 
   React.useEffect(updApiData, [dispatch, props.data]);
 
+  function setContextMenu(data: LoginResData) {
+    props.setContextMenuOpened(true)
+    if (props.data.id) {
+      props.setContextMenuFriend(false)
+    } else {
+      props.setContextMenuFriend(true)
+    }
+    props.setContextMenuData(data)
+  }
+
+  function openContextMenu(e: React.MouseEvent<HTMLElement>) {
+    e.preventDefault();
+    const data = {left: `calc(${e.clientX}px - 20% - 2.5em)`, top: `calc(${e.clientY}px - 8vh)`, element: (props.data.id as string)}
+    setContextMenu(data)
+    document.addEventListener('click', () => {
+      props.setContextMenuOpened(false)})
+  }
+
   return (
-    <section className={`Card ${props.presentationList && "Card_list"}`}>
+    <section className={`Card ${props.presentationList && "Card_list"}`}  onContextMenu={(e) => {openContextMenu(e)}} >
       <div
         className={`Card__avatar ${
           props.presentationList && "Card__avatar_list"

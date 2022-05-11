@@ -67,4 +67,7 @@ export interface ProptectedRouteProps extends MainProps {
 
 export interface CardProps extends ContactsProps {
   data: UserData;
+  setContextMenuOpened: Dispatch<SetStateAction<boolean>>;
+  setContextMenuFriend: Dispatch<SetStateAction<boolean>>;
+  setContextMenuData: Dispatch<SetStateAction<LoginResData>>;
 }
