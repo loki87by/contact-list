@@ -10,7 +10,7 @@
 }
 
 .Card_list {
-  margin-bottom: 1em;
+  margin-bottom: 1.4em;
 }
 
 .Card__avatar {
@@ -130,7 +130,6 @@
 }
 
 .Card__data-container_list-quote {
-  bottom: 0;
   background: rgba(255, 255, 255, 0.4);
 }
 

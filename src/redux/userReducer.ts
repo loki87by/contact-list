@@ -59,9 +59,15 @@ const userSlice = createSlice({
         );
       }
     },
+    resetUser(state, action) {
+      console.log(action.payload)
+      if (action.payload) {
+      state =  initialState
+      }
+    }
   },
 });
 
-export const { addValue, editValue, removeValue } =
+export const { addValue, editValue, removeValue, resetUser } =
   userSlice.actions;
 export default userSlice.reducer;

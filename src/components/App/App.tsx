@@ -2,9 +2,10 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { Route, Switch, Redirect, useHistory } from "react-router-dom";
-import { addValue } from "../../redux/userReducer";
-import { addContact } from "../../redux/contactsReducer";
-// import { addFriend } from "../../redux/friendsReducer";
+import { addValue, resetUser } from "../../redux/userReducer";
+import { addContact, resetContacts } from "../../redux/contactsReducer";
+import { addFriend, resetFriends } from "../../redux/friendsReducer";
+import apiDataUpdate from '../../utils/apiDataUpdate'
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
@@ -22,9 +23,7 @@ function App(): React.ReactElement {
 
   const store = useSelector((state: RootState) => state);
   const contactState = store.contacts;
-  const [currentUserFriends, setCurrentUserFriends] = React.useState(
-    [] as unknown as [UserData]
-  );
+  const friendsState = store.friends;
 
   const [loggedIn, setLoggedIn] = React.useState<boolean>(false);
   const [email, setEmail] = React.useState<string>("");
@@ -36,7 +35,7 @@ function App(): React.ReactElement {
     linkText: "Вход",
   });
 
-  console.log(currentUserFriends, contactState);
+  console.log(friendsState, contactState);
 
   const setUser = React.useCallback(
     (data: UserData) => {
@@ -61,9 +60,7 @@ function App(): React.ReactElement {
               dispatch(addValue(dataObject));
             });
           }
-        } else {
-          setCurrentUserFriends(values[index] as unknown as [UserData]);
-        }
+        } 
       });
     },
     [dispatch]
@@ -89,15 +86,15 @@ function App(): React.ReactElement {
     [dispatch]
   );
 
-  /*   const setFriends = React.useCallback(
+    const setFriends = React.useCallback(
     (data: [UserData]) => {
       data.forEach((friend) => {
-        const {name, email, avatar, phones, quote} = friend
-          dispatch(addFriend(name as UserResData, email as UserResData, avatar as UserResData, phones as UserResData, quote as UserResData));
+        const {email, name, avatar, phones} = friend
+          dispatch(addFriend(email as string, name as string | undefined, avatar as string | undefined, phones as [string] | undefined));
       });
     },
     [dispatch]
-  ); */
+  );
 
   React.useEffect(() => {
     if (localStorage.getItem("jwt")) {
@@ -112,8 +109,9 @@ function App(): React.ReactElement {
         Auth.getData(token)
           .then((res) => {
             setUser(res as UserData);
-            console.log(res);
-            // setFriends
+            if ((res as UserData).friends.length > 0) {
+              setFriends(((res as UserData).friends as [UserResData]))
+            }
           })
           .catch((err) => console.log(err));
         Api.getContacts(token)
@@ -124,7 +122,7 @@ function App(): React.ReactElement {
       }
       history.push("/");
     }
-  }, [history, setContacts, setUser]);
+  }, [history, setContacts, setFriends, setUser]);
 
   function setEnterLink() {
     setHeaderData({ crossLink: "/signup", linkText: "Регистрация" });
@@ -181,6 +179,10 @@ function App(): React.ReactElement {
       linkText: "Войти",
     });
     history.push("/signup");
+    apiDataUpdate
+    dispatch(resetContacts(true))
+    dispatch(resetFriends(true))
+    dispatch(resetUser(true))
   }
 
   return (

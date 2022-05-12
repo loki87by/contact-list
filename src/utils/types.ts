@@ -35,7 +35,7 @@ export interface UserResData {
 }
 
 export interface UserData {
-  [key: string]: string | [string] | UserResData;
+  [key: string]: string | [string] | [UserResData];
 }
 
 export interface HeaderProps {
@@ -70,4 +70,8 @@ export interface CardProps extends ContactsProps {
   setContextMenuOpened: Dispatch<SetStateAction<boolean>>;
   setContextMenuFriend: Dispatch<SetStateAction<boolean>>;
   setContextMenuData: Dispatch<SetStateAction<LoginResData>>;
+}
+
+export interface ProposeProps {
+  user: UserData
 }

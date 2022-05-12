@@ -245,7 +245,7 @@ function Card(props: CardProps): React.ReactElement {
             >
               {props.data.id
                 ? props.data[item] || ADVANCED_CONTACT_DATA_TRANSLATES[index]
-                : ADVANCED_USER_DATA_TRANSLATES[index]}
+                : props.data[item] || ADVANCED_USER_DATA_TRANSLATES[index]}
             </h3>
             {props.data.id ? (
               <img

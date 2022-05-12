@@ -9,7 +9,9 @@ const contactsSlice = createSlice({
   reducers: {
     addContact: {
       reducer: (state, action: PayloadAction<UserResData>) => {
+        if(!state.find((contact) => (contact.id as string).replace(/\D/gi, '') === action.payload.index) && !state.find((contact) => contact.id === action.payload.index)) {
         state.push(action.payload);
+        }
       },
       prepare: (name?: string, email?: string, avatar?: string, phones?: [string], quote?: string, index?: string) => (
         {
@@ -34,8 +36,13 @@ const contactsSlice = createSlice({
       const index = state.findIndex((contact) => contact.id === action.payload.id);
       state[index][action.payload.value] = action.payload.description;
     },
+    resetContacts(state, action) {
+      if (action.payload) {
+      state.splice(0)
+      }
+    }
   },
 });
  
-export const { addContact, removeContact, updateContacts } = contactsSlice.actions;
+export const { addContact, removeContact, updateContacts, resetContacts } = contactsSlice.actions;
 export default contactsSlice.reducer;

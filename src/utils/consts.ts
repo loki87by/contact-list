@@ -9,7 +9,7 @@ export const ADVANCED_USER_DATA = ["name", "email", "quote"];
 export const ADVANCED_USER_DATA_TRANSLATES = [
   "Пользователь еще не установил имя",
   "Пользователь еще не установил email",
-  "Добавить заметку",
+  "",
 ];
 export const ADVANCED_CONTACT_DATA_TRANSLATES = [
   "Безымянный>",
@@ -66,4 +66,8 @@ export const getRandomColor = (index: number): void | string => {
     }
   }
   return addSymbols();
+};
+
+export const randomNumber = (min: number, max: number):number => {
+  return Math.floor(Math.random() * (max - min) + min);
 };

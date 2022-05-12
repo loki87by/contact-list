@@ -213,7 +213,7 @@ export function deleteContact<T>(
   });
 }
 
-export function addFriend<T>(
+export function addNewFriend<T>(
   token: string,
   email: string
 ): Promise<T | unknown> {
@@ -239,62 +239,12 @@ export function addFriend<T>(
     });
 }
 
-export function updateFriendData<T>(
-  token: string,
-  email?: string,
-  avatar?: string,
-  phones?: [string],
-  quote?: string
-): Promise<T | unknown> {
-  const contact = { email, avatar, phones, quote };
-  let uri = `${BASE_URL}/contacts/`;
-  Object.keys(contact).forEach((item, index) => {
-    if (index === 0) {
-      uri += "?";
-    } else {
-      uri += "&";
-    }
-    if (item === "phones") {
-      let stringifyArray = "[" as string;
-      (Object.values(contact)[index] as [string]).forEach(
-        (phone: string, num: number) => {
-          stringifyArray += `${encodeURI(phone)},`;
-          if (num === (Object.values(contact)[index] as [string]).length - 1) {
-            stringifyArray += "]";
-          }
-        }
-      );
-      uri += `phones=${stringifyArray}`;
-    } else {
-      uri += `${item}=${encodeURI(Object.values(contact)[index] as string)}`;
-    }
-  });
-  return fetch(uri, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then((res) => {
-      try {
-        if (res.ok) {
-          return res.json();
-        }
-      } catch (e) {
-        return e;
-      }
-    })
-    .catch((err) => {
-      return Promise.reject(err);
-    });
-}
-
 export function deleteFriend<T>(
   token: string,
   email: string
-): Promise<T | unknown> {
-  const uri = `${BASE_URL}/contacts/?email=${email}`;
+): Promise<T | unknown> | undefined {
+  if(token){ 
+  const uri = `${BASE_URL}/friends/?email=${email}`;
   return fetch(uri, {
     method: "DELETE",
     headers: {
@@ -310,4 +260,6 @@ export function deleteFriend<T>(
       return e;
     }
   });
+  }
+  return
 }

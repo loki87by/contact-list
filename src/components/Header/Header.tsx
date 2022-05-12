@@ -38,7 +38,7 @@ function Header(props: HeaderProps): React.ReactElement {
           </button>
         </div>
       ) : (
-        ""
+        <div style={{width: '18%'}}></div>
       )}
       <h1 className="Header__title">Contact-list</h1>
       <Link
