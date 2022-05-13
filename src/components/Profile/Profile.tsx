@@ -16,7 +16,7 @@ import "./Profile.css";
 function Profile(props: ProfileProps): React.ReactElement {
   const store = useSelector((state: RootState) => state);
   const dispatch = useDispatch<AppDispatch>();
-  const userState = store.user
+  const userState = store.user;
   const [editedText, setEditedText] = React.useState<string>("");
   const [isGeneralSettings, setGeneralSettings] = React.useState(false);
   const [oldPass, setOldPass] = React.useState<string>("");
@@ -286,11 +286,7 @@ function Profile(props: ProfileProps): React.ReactElement {
           </div>
         ) : !userState.phones ||
           (userState.phones && userState.phones.length < 5) ? (
-          <button
-            onClick={() => showInput("phones")}
-          >
-            Добавить номер
-          </button>
+          <button onClick={() => showInput("phones")}>Добавить номер</button>
         ) : (
           ""
         )}

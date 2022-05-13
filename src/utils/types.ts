@@ -54,6 +54,7 @@ export interface ProfileProps {
 
 export interface ContactsProps {
   presentationList: boolean;
+  propose: [UserData];
 }
 
 export interface MainProps extends ProfileProps, ContactsProps {}
@@ -65,13 +66,15 @@ export interface ProptectedRouteProps extends MainProps {
   path: string;
 }
 
-export interface CardProps extends ContactsProps {
+export interface CardProps {
   data: UserData;
+  presentationList: boolean;
   setContextMenuOpened: Dispatch<SetStateAction<boolean>>;
   setContextMenuFriend: Dispatch<SetStateAction<boolean>>;
   setContextMenuData: Dispatch<SetStateAction<LoginResData>>;
 }
 
 export interface ProposeProps {
-  user: UserData
+  user: UserData;
+  addToFriends: (user: UserData) => void;
 }

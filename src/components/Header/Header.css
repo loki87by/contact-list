@@ -1,17 +1,27 @@
 .Header {
   width: 100vw;
   height: 8vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
-  background-color: rgba(0, 197, 148, .7);
+  background-color: rgba(0, 197, 148, 0.7);
 }
 
 .Header__presentation {
   width: 18%;
+  height: -webkit-max-content;
+  height: -moz-max-content;
   height: max-content;
   max-height: 6vh;
   margin-left: 2%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
 }
 
@@ -19,7 +29,7 @@
   width: 45%;
   border: none;
   font-size: 1em;
-  color:#fff;
+  color: #fff;
   background: transparent;
 }
 

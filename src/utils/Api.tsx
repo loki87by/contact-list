@@ -193,6 +193,7 @@ export function deleteContact<T>(
   id?: string
 ): Promise<T | unknown> {
   let uri = `${BASE_URL}/contacts/`;
+
   if (id) {
     uri += `?id=${id}`;
   }
@@ -243,23 +244,23 @@ export function deleteFriend<T>(
   token: string,
   email: string
 ): Promise<T | unknown> | undefined {
-  if(token){ 
-  const uri = `${BASE_URL}/friends/?email=${email}`;
-  return fetch(uri, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  }).then((res) => {
-    try {
-      if (res.ok) {
-        return res.json();
+  if (token) {
+    const uri = `${BASE_URL}/friends/?email=${email}`;
+    return fetch(uri, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => {
+      try {
+        if (res.ok) {
+          return res.json();
+        }
+      } catch (e) {
+        return e;
       }
-    } catch (e) {
-      return e;
-    }
-  });
+    });
   }
-  return
+  return;
 }

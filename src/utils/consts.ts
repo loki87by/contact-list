@@ -68,6 +68,6 @@ export const getRandomColor = (index: number): void | string => {
   return addSymbols();
 };
 
-export const randomNumber = (min: number, max: number):number => {
+export const randomNumber = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min) + min);
 };

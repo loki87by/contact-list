@@ -12,8 +12,9 @@ export function register<T>(
     headers: {
       "Content-Type": "application/json",
     },
-  }).then((res) => res.json())
-  .catch((err) => err.json())
+  })
+    .then((res) => res.json())
+    .catch((err) => err.json());
 }
 
 export function login<T>(
@@ -28,7 +29,7 @@ export function login<T>(
     },
   })
     .then((res) => {
-          return res.json();
+      return res.json();
     })
     .catch((err) => {
       return err.json();
@@ -46,15 +47,13 @@ export function login<T>(
     })
     .catch((err) => err.json());
 }
-export function getData<T>(
-  token: string
-): Promise<T | unknown> {
+export function getData<T>(token: string): Promise<T | unknown> {
   const uri = `${BASE_URL}/me`;
   return fetch(uri, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     },
   }).then((res) => {
     try {

@@ -13,28 +13,32 @@ function Login(props: LoginProps): React.ReactElement {
     <form className="signform">
       <p className="signform__text">Войти</p>
       <fieldset className="signform__fieldset">
-      <input
-        type="text"
-        className="signform__input"
-        onChange={(e) => props.setEmail(e.target.value)}
-        value={props.email}
-        placeholder="Email"
-        id="email"
-        name="email"
-      ></input>
-      <label htmlFor="name" className="signform__label">Email</label>
+        <input
+          type="text"
+          className="signform__input"
+          onChange={(e) => props.setEmail(e.target.value)}
+          value={props.email}
+          placeholder="Email"
+          id="email"
+          name="email"
+        ></input>
+        <label htmlFor="name" className="signform__label">
+          Email
+        </label>
       </fieldset>
       <fieldset className="signform__fieldset">
-      <input
-        type="password"
-        className="signform__input"
-        onChange={(e) => props.setPassword(e.target.value)}
-        value={props.password}
-        placeholder="Пароль"
-        id="pass"
-        name="pass"
-      ></input>
-      <label htmlFor="pass" className="signform__label">Пароль</label>
+        <input
+          type="password"
+          className="signform__input"
+          onChange={(e) => props.setPassword(e.target.value)}
+          value={props.password}
+          placeholder="Пароль"
+          id="pass"
+          name="pass"
+        ></input>
+        <label htmlFor="pass" className="signform__label">
+          Пароль
+        </label>
       </fieldset>
       <button
         type="submit"

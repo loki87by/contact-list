@@ -65,7 +65,6 @@ function Card(props: CardProps): React.ReactElement {
   }
 
   function updApiData() {
-
     if (props.data.id) {
       const token = localStorage.getItem("jwt");
       const { id, name, email, avatar, phones, quote } = props.data;
@@ -112,25 +111,36 @@ function Card(props: CardProps): React.ReactElement {
   React.useEffect(updApiData, [dispatch, props.data]);
 
   function setContextMenu(data: LoginResData) {
-    props.setContextMenuOpened(true)
+    props.setContextMenuOpened(true);
+
     if (props.data.id) {
-      props.setContextMenuFriend(false)
+      props.setContextMenuFriend(false);
     } else {
-      props.setContextMenuFriend(true)
+      props.setContextMenuFriend(true);
     }
-    props.setContextMenuData(data)
+    props.setContextMenuData(data);
   }
 
   function openContextMenu(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
-    const data = {left: `calc(${e.clientX}px - 20% - 2.5em)`, top: `calc(${e.clientY}px - 8vh)`, element: (props.data.id as string)}
-    setContextMenu(data)
-    document.addEventListener('click', () => {
-      props.setContextMenuOpened(false)})
+    const data = {
+      left: `calc(${e.clientX}px - 20% - 2.5em)`,
+      top: `calc(${e.clientY}px - 8vh)`,
+      element: (props.data.id as string) || (props.data.email as string),
+    };
+    setContextMenu(data);
+    document.addEventListener("click", () => {
+      props.setContextMenuOpened(false);
+    });
   }
 
   return (
-    <section className={`Card ${props.presentationList && "Card_list"}`}  onContextMenu={(e) => {openContextMenu(e)}} >
+    <section
+      className={`Card ${props.presentationList && "Card_list"}`}
+      onContextMenu={(e) => {
+        openContextMenu(e);
+      }}
+    >
       <div
         className={`Card__avatar ${
           props.presentationList && "Card__avatar_list"

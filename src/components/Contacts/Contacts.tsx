@@ -3,8 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { AppDispatch, RootState } from "../../redux/store";
 import { addContact, removeContact } from "../../redux/contactsReducer";
-import { getContacts, setContact, deleteContact, getUsers } from "../../utils/Api";
-import { LoginResData, UserResData, ContactsProps, UserData } from "../../utils/types";
+import { addFriend, removeFriend } from "../../redux/friendsReducer";
+import { addPropose, removePropose } from "../../redux/proposeReducer";
+import {
+  getContacts,
+  setContact,
+  deleteContact,
+  addNewFriend,
+  deleteFriend,
+} from "../../utils/Api";
+import {
+  LoginResData,
+  UserResData,
+  ContactsProps,
+  UserData,
+} from "../../utils/types";
 import Card from "../Card/Card";
 import Propose from "../Propose/Propose";
 import {
@@ -12,7 +25,7 @@ import {
   FULL_USER_DATA_INPUT_TYPES,
   FULL_USER_DATA_INPUT_LABELS,
   randomNumber,
-  getRandomColor
+  getRandomColor,
 } from "../../utils/consts";
 import "./Contacts.css";
 
@@ -20,18 +33,16 @@ function Contacts(props: ContactsProps): React.ReactElement {
   const store = useSelector((state: RootState) => state);
   const contactsState = store.contacts;
   const friendsState = store.friends;
-  const userState = store.user;
   const dispatch = useDispatch<AppDispatch>();
   const [isPopupOpened, setPopupOpened] = React.useState(false);
   const [contextMenuOpened, setContextMenuOpened] = React.useState(false);
   const [contextMenuFriend, setContextMenuFriend] = React.useState(false);
-  const [deletedContactsIds, setDeletedContactsIds] = React.useState([] as unknown as [string]);
   const [propose, setPropose] = React.useState([] as unknown as [UserData]);
   const [contextMenuData, setContextMenuData] = React.useState<LoginResData>({
-    top: '',
-    left: '',
-    element: ''
-  })
+    top: "",
+    left: "",
+    element: "",
+  });
   const [newContactData, setNewContactData] = React.useState<LoginResData>({
     name: "",
     email: "",
@@ -66,6 +77,7 @@ function Contacts(props: ContactsProps): React.ReactElement {
     keys.forEach((key, index) => {
       if (values[index] !== "") {
         const noPhone = key.replace(/\d/, "");
+
         if (key === noPhone) {
           obj[key] = values[index] as string;
         } else {
@@ -85,6 +97,7 @@ function Contacts(props: ContactsProps): React.ReactElement {
         index as string
       )
     );
+    updApiData();
     setNewContactData({
       name: "",
       email: "",
@@ -98,7 +111,7 @@ function Contacts(props: ContactsProps): React.ReactElement {
     });
   }
 
-  function updApiData() {
+  const updApiData = () => {
     const token = localStorage.getItem("jwt");
 
     if (token) {
@@ -117,53 +130,63 @@ function Contacts(props: ContactsProps): React.ReactElement {
           });
           setContact(token, contact);
         }
-        if ((res as [UserResData]).length > contactsState.length) {
-          let currentArray = (res as [UserResData]).slice()
-          contactsState.forEach((contact) => {
-            const step = currentArray.filter((item) => item.id !== (contact.id as string).replace(/\D/gi, ''))
-            currentArray = step
-          })
-          if (deletedContactsIds.some((id) => id === currentArray[0].id))
-          {deleteContact(token, (currentArray[0].id as string))}
-        }
       });
     }
-  }
+  };
 
   function removeFromList() {
-    let id;
-    if(!contextMenuFriend) {
-      id = contextMenuData.element.replace(/\D/gi, '')
-      dispatch(removeContact(id))
-      const idsArray = deletedContactsIds
-      idsArray.push(id)
-      setDeletedContactsIds(idsArray)
+    const token = localStorage.getItem("jwt");
+
+    if (!contextMenuFriend) {
+      const id = contextMenuData.element.replace(/\D/gi, "");
+      dispatch(removeContact(id));
+      deleteContact(token as string, id);
     } else {
-      id = contextMenuData.element
+      const id = contextMenuData.element;
+      deleteFriend(token as string, id);
+      const friendData = friendsState.find((friend) => friend.email === id);
+      const { email, name, avatar, phones } = friendData as UserData;
+      dispatch(removeFriend(id));
+      dispatch(
+        addPropose(
+          email as string,
+          name as string | undefined,
+          avatar as string | undefined,
+          phones as [string] | undefined
+        )
+      );
     }
   }
 
-  const proposeArray = () => {
-    getUsers()
-    .then((res) => {
-      const id = userState.email
-      let array = (res as [UserData]).filter((user) => user.email !== id)
-      friendsState.forEach((friend) => {
-        const temporary = array.filter((user) => user.email !== friend.email)
-        array = temporary
-      })
-      for (let i = array.length; i > 2; i--) {
-        const random = randomNumber(0, array.length)
-        const temporary = array.filter((user) => user.email !== array[random].email)
-        array = temporary
-      }
-      setPropose(array as [UserData])
-    })
+  function addToFriends(user: UserData) {
+    const { name, email, avatar, phones } = user;
+    dispatch(
+      addFriend(
+        email as string,
+        name as string | undefined,
+        avatar as string | undefined,
+        phones as [string] | undefined
+      )
+    );
+    dispatch(removePropose(email as string));
+    const token = localStorage.getItem("jwt");
+    addNewFriend(token as string, email as string);
   }
 
-  React.useEffect(updApiData, [dispatch, contactsState, deletedContactsIds]);
-
-  React.useEffect(proposeArray, [friendsState, userState]);
+  React.useEffect(() => {
+    let temporary = props.propose;
+    friendsState.forEach((friend) => {
+      const filtered = temporary.filter((user) => friend.email !== user.email);
+      temporary = filtered as [UserData];
+    });
+    for (let i = temporary.length; i > 2; i--) {
+      const random = randomNumber(0, temporary.length);
+      temporary = temporary.filter(
+        (user) => user.email !== temporary[random].email
+      ) as [UserData];
+    }
+    setPropose(temporary);
+  }, [friendsState, props.propose]);
 
   return (
     <section className="Contacts">
@@ -172,7 +195,9 @@ function Contacts(props: ContactsProps): React.ReactElement {
         className={
           props.presentationList ? "Contacts__list" : "Contacts__cells"
         }
-        style={propose.length < 1 ? {height: `calc(100% - 6em)`} : {}}
+        style={
+          propose && propose.length < 1 ? { height: `calc(100% - 6em)` } : {}
+        }
       >
         {contactsState.map((contact, index) => (
           <li
@@ -181,7 +206,9 @@ function Contacts(props: ContactsProps): React.ReactElement {
               props.presentationList && "Contacts__list-item_list"
             }`}
             style={
-              props.presentationList ? { border: `2px solid ${getRandomColor(index)}` } : {}
+              props.presentationList
+                ? { border: `2px solid ${getRandomColor(index)}` }
+                : {}
             }
           >
             <div
@@ -191,7 +218,13 @@ function Contacts(props: ContactsProps): React.ReactElement {
                   : "Contacts__cells-container"
               }
             >
-              <Card data={contact} presentationList={props.presentationList} setContextMenuData={setContextMenuData} setContextMenuFriend={setContextMenuFriend} setContextMenuOpened={setContextMenuOpened}/>
+              <Card
+                data={contact}
+                presentationList={props.presentationList}
+                setContextMenuData={setContextMenuData}
+                setContextMenuFriend={setContextMenuFriend}
+                setContextMenuOpened={setContextMenuOpened}
+              />
             </div>
           </li>
         ))}
@@ -204,7 +237,13 @@ function Contacts(props: ContactsProps): React.ReactElement {
                   : "Contacts__cells-container"
               }
             >
-              <Card data={friend} presentationList={props.presentationList} setContextMenuData={setContextMenuData} setContextMenuFriend={setContextMenuFriend} setContextMenuOpened={setContextMenuOpened} />
+              <Card
+                data={friend}
+                presentationList={props.presentationList}
+                setContextMenuData={setContextMenuData}
+                setContextMenuFriend={setContextMenuFriend}
+                setContextMenuOpened={setContextMenuOpened}
+              />
             </div>
           </li>
         ))}
@@ -255,21 +294,29 @@ function Contacts(props: ContactsProps): React.ReactElement {
           </form>
         </section>
       </ul>
-      <div style={{left: contextMenuData.left, top: contextMenuData.top}} onClick={removeFromList} className={`Contacts__contextMenu ${contextMenuOpened && "Contacts__contextMenu_opened"}`}>
-        <h4>{contextMenuFriend ? 'Удалить из друзей' : 'Удалить контакт'}</h4>
+      <div
+        style={{ left: contextMenuData.left, top: contextMenuData.top }}
+        onClick={removeFromList}
+        className={`Contacts__contextMenu ${
+          contextMenuOpened && "Contacts__contextMenu_opened"
+        }`}
+      >
+        <h4>{contextMenuFriend ? "Удалить из друзей" : "Удалить контакт"}</h4>
       </div>
-      {propose.length > 0 ?
-      <section className="Contacts__propose">
-        <h3 className="Contacts__propose-title">Возможно вы знакомы:</h3>
-        <div className="Contacts__propose-container">
-        {propose.map((user, index) => (
-          <div key = {`propose-${index}`} className="Contacts__propose-item">
-            <Propose user={user}/>
+      {propose && propose.length > 0 ? (
+        <section className="Contacts__propose">
+          <h3 className="Contacts__propose-title">Возможно вы знакомы:</h3>
+          <div className="Contacts__propose-container">
+            {propose.map((user, index) => (
+              <div key={`propose-${index}`} className="Contacts__propose-item">
+                <Propose user={user} addToFriends={addToFriends} />
+              </div>
+            ))}
           </div>
-        ))}
-        </div>
-      </section>
-      : ''}
+        </section>
+      ) : (
+        ""
+      )}
     </section>
   );
 }

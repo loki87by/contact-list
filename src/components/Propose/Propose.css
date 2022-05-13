@@ -2,47 +2,63 @@
   position: relative;
   width: 100%;
   height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   cursor: alias;
-  transition: all .2s linear;
+  -webkit-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
 }
 
 .Propose_open {
   position: absolute;
-    z-index: 4;
-    top: 0;
-    left: 0;
-    width: calc(100% - 6px);
-    height: calc(100% - 6px);
-    border: 3px solid rgba(0, 197, 148, .7);
-    background-color: #fff;
-    cursor: default;
-    transition: all .5s ease-in-out;
+  z-index: 4;
+  top: 0;
+  left: 0;
+  width: calc(100% - 6px);
+  height: calc(100% - 6px);
+  border: 3px solid rgba(0, 197, 148, 0.7);
+  background-color: #fff;
+  cursor: default;
+  -webkit-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }
 
 .Propose__preview {
   width: 100%;
   height: 100%;
-display: flex;
-align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 .Propose__preview_open {
   width: 60%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: reverse;
+  -ms-flex-direction: column-reverse;
   flex-direction: column-reverse;
 }
 
 .Propose__avatar {
   min-width: 20%;
-    height: 100%;
-    border-radius: 50%;
+  height: 100%;
+  border-radius: 50%;
 }
 
 .Propose__avatar_open {
   width: 100%;
-    border-radius: 0;
-    object-fit: contain;
+  border-radius: 0;
+  -o-object-fit: contain;
+  object-fit: contain;
 }
 
 .Propose__name {
@@ -50,20 +66,28 @@ align-items: center;
   font-size: 1.5em;
 }
 
-.Propose__description{
+.Propose__description {
   width: 40%;
   height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
   align-items: flex-start;
 }
 
 .Propose__close-button {
   margin: 0.5em;
-    margin-bottom: 3em;
+  margin-bottom: 3em;
+  -ms-flex-item-align: end;
   align-self: flex-end;
-    font-weight: 600;
-    text-shadow: -0.5px 0.5px #999;
-    color: rgba(0, 197, 148, .7);
-cursor: pointer;
+  font-weight: 600;
+  text-shadow: -0.5px 0.5px #999;
+  color: rgba(0, 197, 148, 0.7);
+  cursor: pointer;
 }

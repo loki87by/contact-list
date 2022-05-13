@@ -47,11 +47,14 @@ form {
 .Profile__settings {
   position: absolute;
   top: calc(100% - 2.5em);
+  -webkit-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
 }
 
 .Profile__settings_open {
   top: calc(100% - 13.75em);
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   background: rgba(0, 197, 148, 0.3);
   border: 4px dashed rgba(0, 197, 148, 0.7);
@@ -66,6 +69,8 @@ form > button {
   line-height: 1.25;
   border-color: darkgrey;
   background: rgba(0, 197, 148, 0.6);
+  -webkit-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
 }
 
@@ -75,7 +80,7 @@ form > button {
 }
 
 .Profile__settings > button:last-of-type {
-  margin-bottom: .5em;
+  margin-bottom: 0.5em;
 }
 
 .Profile__settings > button:last-of-type:hover {
@@ -141,6 +146,7 @@ input[type="number"]::-webkit-outer-spin-button {
 .Profile__pass-input {
   width: 100%;
   padding: 0;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 1em;
   line-height: 1;
@@ -176,5 +182,6 @@ input[type="number"]::-webkit-outer-spin-button {
   font-weight: 500;
   overflow: hidden;
   white-space: nowrap;
+  -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
 }

@@ -1,11 +1,11 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/store";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store";
 import { Route, Switch, Redirect, useHistory } from "react-router-dom";
 import { addValue, resetUser } from "../../redux/userReducer";
 import { addContact, resetContacts } from "../../redux/contactsReducer";
 import { addFriend, resetFriends } from "../../redux/friendsReducer";
-import apiDataUpdate from '../../utils/apiDataUpdate'
+import { addPropose, resetProposes } from "../../redux/proposeReducer";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
@@ -21,21 +21,16 @@ function App(): React.ReactElement {
   const dispatch = useDispatch<AppDispatch>();
   const history = useHistory();
 
-  const store = useSelector((state: RootState) => state);
-  const contactState = store.contacts;
-  const friendsState = store.friends;
-
   const [loggedIn, setLoggedIn] = React.useState<boolean>(false);
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
+  const [propose, setPropose] = React.useState([] as unknown as [UserData]);
   const [presentationList, setPresentationList] =
     React.useState<boolean>(false);
   const [headerData, setHeaderData] = React.useState({
     crossLink: "/signin",
     linkText: "Вход",
   });
-
-  console.log(friendsState, contactState);
 
   const setUser = React.useCallback(
     (data: UserData) => {
@@ -60,7 +55,7 @@ function App(): React.ReactElement {
               dispatch(addValue(dataObject));
             });
           }
-        } 
+        }
       });
     },
     [dispatch]
@@ -86,12 +81,37 @@ function App(): React.ReactElement {
     [dispatch]
   );
 
-    const setFriends = React.useCallback(
+  const setFriends = React.useCallback(
     (data: [UserData]) => {
       data.forEach((friend) => {
-        const {email, name, avatar, phones} = friend
-          dispatch(addFriend(email as string, name as string | undefined, avatar as string | undefined, phones as [string] | undefined));
+        const { email, name, avatar, phones } = friend;
+        dispatch(
+          addFriend(
+            email as string,
+            name as string | undefined,
+            avatar as string | undefined,
+            phones as [string] | undefined
+          )
+        );
       });
+    },
+    [dispatch]
+  );
+
+  const setProposes = React.useCallback(
+    (data: [UserData]) => {
+      data.forEach((friend) => {
+        const { email, name, avatar, phones } = friend;
+        dispatch(
+          addPropose(
+            email as string,
+            name as string | undefined,
+            avatar as string | undefined,
+            phones as [string] | undefined
+          )
+        );
+      });
+      setPropose(data);
     },
     [dispatch]
   );
@@ -109,9 +129,17 @@ function App(): React.ReactElement {
         Auth.getData(token)
           .then((res) => {
             setUser(res as UserData);
+
             if ((res as UserData).friends.length > 0) {
-              setFriends(((res as UserData).friends as [UserResData]))
+              setFriends((res as UserData).friends as [UserResData]);
             }
+            Api.getUsers().then((users) => {
+              const id = (res as UserData).email;
+              const array = (users as [UserData]).filter(
+                (user) => user.email !== id
+              );
+              setProposes(array as [UserData]);
+            });
           })
           .catch((err) => console.log(err));
         Api.getContacts(token)
@@ -122,7 +150,7 @@ function App(): React.ReactElement {
       }
       history.push("/");
     }
-  }, [history, setContacts, setFriends, setUser]);
+  }, [history, setUser, setFriends, setContacts, setProposes]);
 
   function setEnterLink() {
     setHeaderData({ crossLink: "/signup", linkText: "Регистрация" });
@@ -144,7 +172,20 @@ function App(): React.ReactElement {
             linkText: "Выход",
           });
           Auth.getData((data as LoginResData).token)
-            .then((res) => setUser(res as UserData))
+            .then((res) => {
+              setUser(res as UserData);
+
+              if ((res as UserData).friends.length > 0) {
+                setFriends((res as UserData).friends as [UserResData]);
+              }
+              Api.getUsers().then((users) => {
+                const id = (res as UserData).email;
+                const array = (users as [UserData]).filter(
+                  (user) => user.email !== id
+                );
+                setProposes(array as [UserData]);
+              });
+            })
             .catch((err) => console.log(err));
           Api.getContacts((data as LoginResData).token)
             .then((res) => setContacts(res as [UserResData]))
@@ -178,11 +219,11 @@ function App(): React.ReactElement {
       crossLink: "/signin",
       linkText: "Войти",
     });
-    history.push("/signup");
-    apiDataUpdate
-    dispatch(resetContacts(true))
-    dispatch(resetFriends(true))
-    dispatch(resetUser(true))
+    history.push("/");
+    dispatch(resetContacts(true));
+    dispatch(resetFriends(true));
+    dispatch(resetUser(true));
+    dispatch(resetProposes(true));
   }
 
   return (
@@ -204,6 +245,7 @@ function App(): React.ReactElement {
             loggedIn={loggedIn}
             presentationList={presentationList}
             logOut={logOut}
+            propose={propose}
             component={Main}
           />
           <Route path="/signup">
