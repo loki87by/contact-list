@@ -128,7 +128,7 @@ function Profile(props: ProfileProps): React.ReactElement {
   React.useEffect(updApiData, [dispatch, userState]);
 
   return (
-    <section className="Profile">
+    <section className={`Profile ${props.isMobileMenuOpen && "Profile_open"}`}>
       {BASIC_USER_DATA.map((item, index) => (
         <div className="Profile__section" key={`section-${item}`}>
           {editData.editable &&

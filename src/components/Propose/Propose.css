@@ -91,3 +91,31 @@
   color: rgba(0, 197, 148, 0.7);
   cursor: pointer;
 }
+
+@media (max-width: 768px) {
+  .Propose {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+
+  .Propose__preview_open {
+    width: 90%;
+  }
+
+  .Propose__name {
+    font-size: 2em;
+  }
+
+  .Propose__description {
+    width: 90%;
+  }
+
+  .Propose__close-button {
+    position: absolute;
+    bottom: 0.5em;
+    margin: auto;
+    font-size: 2em;
+  }
+}

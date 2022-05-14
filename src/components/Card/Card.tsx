@@ -4,14 +4,14 @@ import { AppDispatch } from "../../redux/store";
 import { updateContacts } from "../../redux/contactsReducer";
 import { CardProps, UserResData, LoginResData } from "../../utils/types";
 import { getContacts, updateContact } from "../../utils/Api";
-import pencil from "../../assets/pencil.svg";
-import noAva from "../../assets/no_ava.gif";
 import {
   ADVANCED_USER_DATA,
   ADVANCED_USER_DATA_TRANSLATES,
   ADVANCED_CONTACT_DATA_TRANSLATES,
   getRandomColor,
 } from "../../utils/consts";
+import pencil from "../../assets/pencil.svg";
+import noAva from "../../assets/no_ava.gif";
 import "./Card.css";
 
 function Card(props: CardProps): React.ReactElement {
@@ -128,6 +128,9 @@ function Card(props: CardProps): React.ReactElement {
       top: `calc(${e.clientY}px - 8vh)`,
       element: (props.data.id as string) || (props.data.email as string),
     };
+    if (props.width < 769) {
+      data.left = `${e.clientX}px`;
+    }
     setContextMenu(data);
     document.addEventListener("click", () => {
       props.setContextMenuOpened(false);

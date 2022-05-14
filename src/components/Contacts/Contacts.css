@@ -5,12 +5,13 @@
 }
 
 .Contacts__title {
+  margin: 0.5em;
   line-height: 1;
 }
 
 .Contacts__list {
   width: calc(100% - 4em);
-  height: calc(80% - 4em);
+  height: calc(80% - 5em);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -23,7 +24,7 @@
 
 .Contacts__cells {
   width: calc(100% - 4em);
-  height: calc(80% - 4em);
+  height: calc(80% - 5em);
   padding: 0 2em;
   display: -ms-grid;
   display: grid;
@@ -36,6 +37,7 @@
 }
 
 .Contacts__list-item {
+  max-height: 50%;
   margin-bottom: 2em;
   list-style: none;
 }
@@ -264,4 +266,76 @@
 .Contacts__propose-item {
   max-width: 40%;
   height: 100%;
+}
+
+@media (max-width: 768px) {
+  .Contacts {
+    width: 100%;
+  }
+
+  .Contacts__title {
+    font-size: 2.5em;
+    text-align: center;
+  }
+
+  .Contacts__list {
+    width: calc(100% - 2em);
+    height: calc(90% - 8em);
+    padding: 0;
+    margin: 1em;
+  }
+
+  .Contacts__cells {
+    -ms-grid-columns: 100%;
+    grid-template-columns: 100%;
+  }
+
+  .Contacts__list-item {
+    max-height: 100%;
+  }
+
+  .Contacts__list-item_list {
+    min-height: 20%;
+  }
+
+  .Contacts__propose {
+    height: 10%;
+  }
+
+  .Contacts__propose-title {
+    font-size: 2em;
+    line-height: 1.5;
+  }
+
+  .Contacts__add-popup {
+    width: 85%;
+  }
+
+  .Contacts__add-form {
+    margin: auto;
+  }
+
+  .Contacts__form-fieldset {
+    width: 100%;
+    height: 2.5em;
+  }
+
+  .Contacts__form-input,
+  .Contacts__form-input:focus {
+    margin-top: 1.1em;
+  }
+
+  .Contacts__form-label {
+    top: 0;
+  }
+
+  .Contacts__form-submit {
+    margin-top: 1em;
+  }
+
+  .Contacts__contextMenu_opened {
+    font-size: 2.5em;
+    background-color: red;
+    color: #fff;
+  }
 }

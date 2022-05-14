@@ -33,6 +33,12 @@
   background: transparent;
 }
 
+.Header__presentation-button_mobile {
+  width: 12%;
+  margin-right: 1%;
+  margin-left: 5%;
+}
+
 .Header__title {
   width: 20%;
   margin: auto;
@@ -49,4 +55,14 @@
   text-shadow: 2px 2px 2px #000;
   color: #fff;
   text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .Header__title {
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
+    margin: auto;
+    font-size: 3.5em;
+  }
 }

@@ -6,31 +6,46 @@ import { addValue, resetUser } from "../../redux/userReducer";
 import { addContact, resetContacts } from "../../redux/contactsReducer";
 import { addFriend, resetFriends } from "../../redux/friendsReducer";
 import { addPropose, resetProposes } from "../../redux/proposeReducer";
+import { LoginResData, UserData, UserResData } from "../../utils/types";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import * as Auth from "../../utils/Auth";
+import * as Api from "../../utils/Api";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
 import Register from "../Auth/Register";
 import Login from "../Auth/Login";
-import * as Auth from "../../utils/Auth";
-import * as Api from "../../utils/Api";
-import { LoginResData, UserData, UserResData } from "../../utils/types";
 import "./App.css";
 
 function App(): React.ReactElement {
   const dispatch = useDispatch<AppDispatch>();
   const history = useHistory();
 
+  const [width, setWidth] = React.useState(window.innerWidth);
   const [loggedIn, setLoggedIn] = React.useState<boolean>(false);
+  const [isMobileMenuOpen, setMobileMenuOpen] = React.useState<boolean>(false);
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [propose, setPropose] = React.useState([] as unknown as [UserData]);
-  const [presentationList, setPresentationList] =
-    React.useState<boolean>(false);
+  const [presentationList, setPresentationList] = React.useState<boolean>(true);
   const [headerData, setHeaderData] = React.useState({
     crossLink: "/signin",
     linkText: "Вход",
   });
+
+  React.useEffect(() => {
+    function updateSize() {
+      setWidth(window.innerWidth);
+    }
+    window.addEventListener("resize", updateSize);
+    updateSize();
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
+
+  function toogleMobileMenu() {
+    const state = !isMobileMenuOpen;
+    setMobileMenuOpen(state);
+  }
 
   const setUser = React.useCallback(
     (data: UserData) => {
@@ -229,44 +244,48 @@ function App(): React.ReactElement {
   return (
     <>
       <Header
-        loggedIn={loggedIn}
         crossLink={headerData.crossLink}
         linkText={headerData.linkText}
+        loggedIn={loggedIn}
+        width={width}
+        logOut={logOut}
         setEnterLink={setEnterLink}
         setRegLink={setRegLink}
-        logOut={logOut}
         setPresentationList={setPresentationList}
+        toogleMobileMenu={toogleMobileMenu}
       />
       <main className="content">
         <Switch>
           <ProtectedRoute
             exact
             path="/"
+            isMobileMenuOpen={isMobileMenuOpen}
             loggedIn={loggedIn}
             presentationList={presentationList}
-            logOut={logOut}
             propose={propose}
+            width={width}
             component={Main}
+            logOut={logOut}
           />
           <Route path="/signup">
             <Register
               email={email}
               password={password}
+              changeLink={setEnterLink}
+              onRegister={onRegister}
               setEmail={setEmail}
               setPassword={setPassword}
-              onRegister={onRegister}
-              changeLink={setEnterLink}
             />
           </Route>
           <Route path="/signin">
             <Login
               email={email}
               password={password}
-              setEmail={setEmail}
-              setPassword={setPassword}
-              onLogin={handleLogin}
               changeLink={setRegLink}
+              onLogin={handleLogin}
+              setEmail={setEmail}
               setLoggedIn={setLoggedIn}
+              setPassword={setPassword}
             />
           </Route>
           <Route>

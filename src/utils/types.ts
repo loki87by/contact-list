@@ -1,25 +1,19 @@
 import { Dispatch, SetStateAction } from "react";
 
-export interface Todo {
-  id: string;
-  description: string;
-  completed: boolean;
-}
-
 interface UserLoginData {
   email: string;
   password: string;
 }
 
 interface AuthData extends UserLoginData {
+  changeLink: VoidFunction;
   setEmail: Dispatch<SetStateAction<string>>;
   setPassword: Dispatch<SetStateAction<string>>;
-  changeLink: VoidFunction;
 }
 
 export interface LoginProps extends AuthData {
-  setLoggedIn: Dispatch<SetStateAction<boolean>>;
   onLogin: VoidFunction;
+  setLoggedIn: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface RegisterProps extends AuthData {
@@ -39,39 +33,44 @@ export interface UserData {
 }
 
 export interface HeaderProps {
-  loggedIn: boolean;
   crossLink: string;
   linkText: string;
-  setEnterLink: VoidFunction;
-  setRegLink: VoidFunction;
+  loggedIn: boolean;
+  width: number;
   logOut: VoidFunction;
+  setEnterLink: VoidFunction;
   setPresentationList: Dispatch<SetStateAction<boolean>>;
+  setRegLink: VoidFunction;
+  toogleMobileMenu: VoidFunction;
 }
 
 export interface ProfileProps {
+  isMobileMenuOpen: boolean;
   logOut: VoidFunction;
 }
 
 export interface ContactsProps {
   presentationList: boolean;
   propose: [UserData];
+  width: number;
 }
 
 export interface MainProps extends ProfileProps, ContactsProps {}
 
 export interface ProptectedRouteProps extends MainProps {
   component: React.FC<MainProps>;
-  loggedIn: boolean;
   exact: boolean;
+  loggedIn: boolean;
   path: string;
 }
 
 export interface CardProps {
   data: UserData;
   presentationList: boolean;
-  setContextMenuOpened: Dispatch<SetStateAction<boolean>>;
-  setContextMenuFriend: Dispatch<SetStateAction<boolean>>;
+  width: number;
   setContextMenuData: Dispatch<SetStateAction<LoginResData>>;
+  setContextMenuFriend: Dispatch<SetStateAction<boolean>>;
+  setContextMenuOpened: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface ProposeProps {

@@ -25,6 +25,7 @@
   width: 10%;
   min-width: 10%;
   height: 100%;
+  margin: 0.25em;
 }
 
 .Card__avatar-image {
@@ -229,4 +230,44 @@
   -webkit-box-align: baseline;
   -ms-flex-align: baseline;
   align-items: baseline;
+}
+
+@media (max-width: 768px) {
+  .Card__avatar {
+    max-width: 40%;
+    min-width: 40%;
+    margin-right: 5%;
+  }
+
+  .Card__avatar_list {
+    width: 15%;
+    min-width: 15%;
+    max-width: 15%;
+  }
+
+  .Card__avatar-image {
+    -o-object-fit: contain;
+    object-fit: contain;
+  }
+
+  .Card__description_list {
+    width: 85%;
+  }
+
+  .Card__data-text {
+    font-size: 2em;
+  }
+
+  .Card__data-container_list-quote {
+    left: 25%;
+  }
+
+  .Card__phones-container {
+    font-size: 1.75em;
+  }
+
+  .Card__phones-container_list {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
 }

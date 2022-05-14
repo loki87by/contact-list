@@ -18,8 +18,6 @@ import {
   ContactsProps,
   UserData,
 } from "../../utils/types";
-import Card from "../Card/Card";
-import Propose from "../Propose/Propose";
 import {
   FULL_USER_DATA,
   FULL_USER_DATA_INPUT_TYPES,
@@ -27,6 +25,8 @@ import {
   randomNumber,
   getRandomColor,
 } from "../../utils/consts";
+import Card from "../Card/Card";
+import Propose from "../Propose/Propose";
 import "./Contacts.css";
 
 function Contacts(props: ContactsProps): React.ReactElement {
@@ -221,6 +221,7 @@ function Contacts(props: ContactsProps): React.ReactElement {
               <Card
                 data={contact}
                 presentationList={props.presentationList}
+                width={props.width}
                 setContextMenuData={setContextMenuData}
                 setContextMenuFriend={setContextMenuFriend}
                 setContextMenuOpened={setContextMenuOpened}
@@ -229,7 +230,17 @@ function Contacts(props: ContactsProps): React.ReactElement {
           </li>
         ))}
         {friendsState.map((friend, index) => (
-          <li key={`contact-${index}`} className="Contacts__list-item">
+          <li
+            key={`contact-${index}`}
+            style={
+              props.presentationList
+                ? { border: `2px solid ${getRandomColor(index)}` }
+                : {}
+            }
+            className={`Contacts__list-item ${
+              props.presentationList && "Contacts__list-item_list"
+            }`}
+          >
             <div
               className={
                 props.presentationList
@@ -240,6 +251,7 @@ function Contacts(props: ContactsProps): React.ReactElement {
               <Card
                 data={friend}
                 presentationList={props.presentationList}
+                width={props.width}
                 setContextMenuData={setContextMenuData}
                 setContextMenuFriend={setContextMenuFriend}
                 setContextMenuOpened={setContextMenuOpened}

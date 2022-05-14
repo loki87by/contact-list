@@ -2,6 +2,9 @@
   position: relative;
   width: 20%;
   height: 100%;
+  border-right: 0.25em solid rgba(0, 197, 148, 0.7);
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -153,12 +156,12 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .Profile__avatar {
-  width: 100%;
+  width: 90%;
 }
 
 .Profile__editButton_avatar {
   position: absolute;
-  width: 100%;
+  width: 90%;
   height: 100%;
   opacity: 0;
   -webkit-transition: all 0.3s linear;
@@ -184,4 +187,97 @@ input[type="number"]::-webkit-outer-spin-button {
   white-space: nowrap;
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
+}
+
+@media (max-width: 768px) {
+  .Profile {
+    position: absolute;
+    left: 100%;
+    z-index: 5;
+    width: 100%;
+    border: none;
+    background: #fff;
+    -webkit-transition: all 0.4s linear;
+    -o-transition: all 0.4s linear;
+    transition: all 0.4s linear;
+  }
+
+  .Profile_open {
+    left: 0;
+    overflow: auto;
+  }
+
+  .Profile__name {
+    font-size: 3em;
+  }
+
+  .Profile__editButton,
+  .Profile__removeButton {
+    width: 3em;
+    height: 3em;
+  }
+
+  .Profile__editButton_avatar {
+    width: 90%;
+    height: 100%;
+    margin: 0.5em;
+    font-size: 1.5em;
+  }
+
+  .Profile__section {
+    margin-bottom: 1em;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+
+  .Profile__input {
+    width: 95%;
+    font-size: 2em;
+    line-height: 1.5;
+  }
+
+  .Profile__email {
+    font-size: 2.5em;
+  }
+
+  .Profile__section_phones > button {
+    padding: 0.25em;
+    font-size: 2em;
+    line-height: 1.5;
+  }
+
+  .Profile__phone,
+  form {
+    width: 90%;
+    font-size: 2.5em;
+  }
+
+  .Profile__phone > .Profile__editButton,
+  .Profile__phone > .Profile__removeButton {
+    width: 1.5em;
+    height: 1.5em;
+    margin: 0 0.5em;
+  }
+
+  .Profile__settings {
+    position: relative;
+    top: auto;
+  }
+
+  .Profile__settings > button:first-of-type {
+    display: none;
+  }
+
+  .Profile__pass-input {
+    padding: 1px;
+    line-height: 1.15;
+  }
+
+  .Profile__settings > button:last-of-type {
+    font-size: 2.5em;
+    font-weight: 600;
+    background: #cd0b0b;
+    color: #fff;
+    line-height: 1.5;
+  }
 }
