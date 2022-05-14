@@ -12,7 +12,7 @@ export const ADVANCED_USER_DATA_TRANSLATES = [
   "",
 ];
 export const ADVANCED_CONTACT_DATA_TRANSLATES = [
-  "Безымянный>",
+  "Безымянный",
   "Нет email",
   "Добавить заметку",
 ];
@@ -71,3 +71,17 @@ export const getRandomColor = (index: number): void | string => {
 export const randomNumber = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min) + min);
 };
+
+export function debounce(f: (text:string)=>void, t: number, args:string): VoidFunction {
+  let lastCall = Date.now();
+  let lastCallTimer = setTimeout(() => f(args), t);
+  return function () {
+    const previousCall = lastCall;
+    lastCall = Date.now();
+
+    if (previousCall && lastCall - previousCall <= t) {
+      clearTimeout(lastCallTimer);
+    }
+    lastCallTimer = setTimeout(() => f(args), t);
+  };
+}

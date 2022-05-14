@@ -24,17 +24,22 @@ import {
   FULL_USER_DATA_INPUT_LABELS,
   randomNumber,
   getRandomColor,
+  debounce,
 } from "../../utils/consts";
 import Card from "../Card/Card";
 import Propose from "../Propose/Propose";
+import search from "../../assets/search.svg";
 import "./Contacts.css";
 
 function Contacts(props: ContactsProps): React.ReactElement {
   const store = useSelector((state: RootState) => state);
   const contactsState = store.contacts;
   const friendsState = store.friends;
+  const inputRef = React.useRef(null);
   const dispatch = useDispatch<AppDispatch>();
   const [isPopupOpened, setPopupOpened] = React.useState(false);
+  const [isSearchInputOpened, setSearchInputOpened] = React.useState(false);
+  const [searchInput, setSearchInput] = React.useState("");
   const [contextMenuOpened, setContextMenuOpened] = React.useState(false);
   const [contextMenuFriend, setContextMenuFriend] = React.useState(false);
   const [propose, setPropose] = React.useState([] as unknown as [UserData]);
@@ -134,6 +139,14 @@ function Contacts(props: ContactsProps): React.ReactElement {
     }
   };
 
+  function searchInputSwitcher() {
+    const newState = !isSearchInputOpened;
+    setSearchInputOpened(newState);
+    if (newState && inputRef.current !== null) {
+      (inputRef.current as HTMLInputElement).focus();
+    }
+  }
+
   function removeFromList() {
     const token = localStorage.getItem("jwt");
 
@@ -188,9 +201,90 @@ function Contacts(props: ContactsProps): React.ReactElement {
     setPropose(temporary);
   }, [friendsState, props.propose]);
 
+  function findContact(text: string) {
+    const liArray = document.querySelectorAll("li");
+    liArray.forEach((li, index) => {
+      let result = false;
+      if (index < contactsState.length) {
+        result = satisfiesRequest(text, contactsState[index]);
+      } else {
+        result = satisfiesRequest(
+          text,
+          friendsState[index - contactsState.length]
+        );
+      }
+      if (!result) {
+        li.classList.add("hidden");
+      } else {
+        li.classList.remove("hidden");
+      }
+    });
+  }
+
+  function searchInputHandler(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
+    setSearchInput(value);
+    debounce(findContact, 500, value);
+  }
+
+  function satisfiesRequest(text: string, data: UserResData | UserData) {
+    let result = false;
+
+    if (data.name) {
+      if ((data.name as string).toLowerCase().includes(text.toLowerCase())) {
+        result = true;
+      }
+    }
+
+    if (data.email) {
+      if ((data.email as string).toLowerCase().includes(text.toLowerCase())) {
+        result = true;
+      }
+    }
+
+    if (data.phones && data.phones.length > 0) {
+      (data.phones as [string]).forEach((phone) => {
+        if (phone.toLowerCase().includes(text.toLowerCase())) {
+          result = true;
+        }
+      });
+    }
+
+    return result;
+  }
+
   return (
     <section className="Contacts">
-      <h2 className="Contacts__title">Ваш список контактов:</h2>
+      <div className="Contacts__title">
+        <h2 className="Contacts__title-text">Ваш список контактов:</h2>
+        <div
+          className={`Contacts__search ${
+            isSearchInputOpened && "Contacts__search_opened"
+          }`}
+        >
+          <input
+            ref={inputRef}
+            onChange={searchInputHandler}
+            value={searchInput}
+            className="Contacts__search-input"
+            placeholder={
+              isSearchInputOpened
+                ? "Введите имя, email, текст заметки или телефон"
+                : ""
+            }
+          />
+          {props.width > 768 ? (
+            <img
+              onClick={searchInputSwitcher}
+              className="Contacts__search-button"
+              src={search}
+              alt="search"
+            />
+          ) : (
+            ""
+          )}
+        </div>
+      </div>
       <ul
         className={
           props.presentationList ? "Contacts__list" : "Contacts__cells"

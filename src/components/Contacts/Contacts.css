@@ -5,13 +5,52 @@
 }
 
 .Contacts__title {
-  margin: 0.5em;
+  width: calc(100% - 1em);
+  padding: 0.5em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.Contacts__title-text {
   line-height: 1;
+}
+
+.Contacts__search {
+  position: relative;
+  width: 2em;
+  height: 2em;
+  padding: 1px;
+  -webkit-transition: width 0.2s linear;
+  -o-transition: width 0.2s linear;
+  transition: width 0.2s linear;
+}
+
+.Contacts__search_opened {
+  width: 60%;
+}
+
+.Contacts__search-input {
+  width: 100%;
+  height: 2em;
+  padding: 0;
+  border-width: thin;
+}
+
+.Contacts__search-button {
+  position: absolute;
+  top: 3px;
+  right: 0;
+  width: 2em;
+  height: calc(2em - 2px);
 }
 
 .Contacts__list {
   width: calc(100% - 4em);
-  height: calc(80% - 5em);
+  height: calc(80% - 6em);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -268,12 +307,28 @@
   height: 100%;
 }
 
+.hidden {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .Contacts {
     width: 100%;
   }
 
   .Contacts__title {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+
+  .Contacts__search {
+    width: 95%;
+    margin: auto;
+  }
+
+  .Contacts__title-text {
     font-size: 2.5em;
     text-align: center;
   }
