@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
-import { Route, Switch, Redirect, useHistory } from "react-router-dom";
+import { /* HashRouter, uncomment when nedd gh-pages deploy */ Route, Switch, Redirect, useHistory } from "react-router-dom";
 import { addValue, resetUser } from "../../redux/userReducer";
 import { addContact, resetContacts } from "../../redux/contactsReducer";
 import { addFriend, resetFriends } from "../../redux/friendsReducer";
@@ -255,6 +255,7 @@ function App(): React.ReactElement {
         toogleMobileMenu={toogleMobileMenu}
       />
       <main className="content">
+        {/* <HashRouter> uncomment when nedd gh-pages deploy */}
         <Switch>
           <ProtectedRoute
             exact
@@ -292,6 +293,7 @@ function App(): React.ReactElement {
             {loggedIn ? <Redirect to="/" /> : <Redirect to="/signup" />}
           </Route>
         </Switch>
+        {/* </HashRouter> uncomment when nedd gh-pages deploy */}
       </main>
       <Footer />
     </>

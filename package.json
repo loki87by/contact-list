@@ -1,6 +1,7 @@
 {
   "name": "contact-list",
   "version": "0.0.1",
+  "homepage": "https://loki87by.github.io/contact-list/",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.1",
@@ -11,6 +12,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/redux": "^3.6.0",
     "@types/uuid": "^8.3.4",
+    "gh-pages": "^4.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^8.0.1",
@@ -24,6 +26,8 @@
   "scripts": {
     "start": "webpack serve --config webpack.dev.config.ts",
     "build": "webpack --config webpack.prod.config.ts",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

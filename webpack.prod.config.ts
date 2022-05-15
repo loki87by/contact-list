@@ -2,6 +2,7 @@ import path from "path";
 import webpack from "webpack";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import ESLintPlugin from "eslint-webpack-plugin";
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import autoprefixer from "autoprefixer";
@@ -63,6 +64,8 @@ const config: webpack.Configuration = {
     new ESLintPlugin({
       extensions: ["js", "jsx", "ts", "tsx"],
     }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'public', 'index.html')}),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin(),
     autoprefixer,
