@@ -1,6 +1,5 @@
 # Contacts List
 
-[Ссылка на репозиторий](https://github.com/loki87by/contacts-list).
 [Ссылка на API](https://github.com/loki87by/contacts-list-api).
 
 ## Технологии используемые в проекте:
