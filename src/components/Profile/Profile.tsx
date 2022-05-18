@@ -203,7 +203,7 @@ function Profile(props: ProfileProps): React.ReactElement {
         </div>
       ))}
       <div className="Profile__section Profile__section_phones">
-        {userState.phones && userState.phones.length > 0 ? (
+        {(userState.phones && userState.phones.length > 0 && userState.phones[0] !== '') ? (
           <>
             <h3 className="Profile__phone">Телефонные номера:</h3>
             {(userState.phones as [string]).map((phone, index) =>

@@ -61,7 +61,10 @@ const userSlice = createSlice({
     },
     resetUser(state, action) {
       if (action.payload) {
-        state = initialState;
+        state.name = ''
+        state.email = ''
+        state.avatar = ''
+        state.phones = ['']
       }
     },
   },
